@@ -6,21 +6,25 @@ import WaitlistForm from '../components/WaitlistForm.astro';
 const steps = [
   { n: '01', body: 'Install SafeScreen.' },
   { n: '02', body: 'Turn on protection.' },
-  { n: '03', body: 'Harmful images blur before you see them.' },
+  { n: '03', body: 'Harmful content blurs. You choose what to reveal.' },
 ];
 
+// Each case is a 3-beat micro-story: setup (muted) → result (emphasized).
 const useCases = [
   {
     role: 'Parents',
-    body: 'Kids run into explicit content online. SafeScreen blurs it across every app they open, with no per-app setup.',
+    setup: 'Your kid opens any app. Explicit content appears.',
+    outcome: 'Blurred before they see it. Zero per-app setup.',
   },
   {
     role: 'Anyone targeted',
-    body: 'Deepfakes and leaked images spread in seconds. SafeScreen helps flag possible AI-faked images before they reach you.',
+    setup: 'A deepfake or leaked photo lands in a chat.',
+    outcome: 'Checked on your device, flagged before it catches you off guard.',
   },
   {
     role: 'Privacy-first',
-    body: 'You don’t trust apps that upload your screen. SafeScreen runs entirely on your phone. Nothing ever leaves the device.',
+    setup: 'You don’t trust apps that upload your screen.',
+    outcome: 'Every check runs locally. Your screen never leaves the phone.',
   },
 ];
 ---
@@ -34,7 +38,7 @@ const useCases = [
           Harmful images, blurred before you see them.
         </h1>
         <p class="mt-6 max-w-md text-lg leading-relaxed text-fg-2">
-          SafeScreen catches explicit and AI-faked images in real time, on your phone. No cloud, no uploads.
+          Explicit and AI-faked content. Blurred on-device, in every app. Nothing leaves your phone.
         </p>
 
         <div class="mt-8">
@@ -95,9 +99,10 @@ const useCases = [
     <div class="mt-8 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
       {
         useCases.map((u) => (
-          <div class="bg-surface p-7">
-            <h3 class="text-lg text-fg">{u.role}</h3>
-            <p class="mt-3 leading-relaxed text-fg-2">{u.body}</p>
+          <div class="flex flex-col bg-surface p-7">
+            <p class="eyebrow">{u.role}</p>
+            <p class="mt-4 leading-relaxed text-fg-3">{u.setup}</p>
+            <p class="mt-2 leading-relaxed text-fg">{u.outcome}</p>
           </div>
         ))
       }
@@ -107,7 +112,7 @@ const useCases = [
   <!-- DIFFERENTIATOR -->
   <section class="container-tight mt-24">
     <p class="max-w-3xl text-2xl leading-snug text-fg sm:text-[1.7rem]">
-      Only SafeScreen blocks harmful images in real time, without sending a single byte off your phone.
+      Only SafeScreen blocks harmful images in real time, with zero bytes ever leaving your phone.
     </p>
   </section>
 
@@ -116,7 +121,7 @@ const useCases = [
     <div class="card flex flex-col items-start gap-7 p-10 sm:p-14">
       <div>
         <h2 class="text-3xl sm:text-4xl">Be first to protect your screen.</h2>
-        <p class="mt-4 text-lg text-fg-2">Launching soon. One email when it's ready.</p>
+        <p class="mt-4 text-lg text-fg-2">Launching soon. We'll tell you the moment it's ready.</p>
       </div>
       <WaitlistForm />
     </div>
