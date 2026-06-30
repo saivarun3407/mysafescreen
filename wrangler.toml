@@ -1,0 +1,13 @@
+name = "mysafescreen"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "dist"
+
+# KV binding for waitlist (optional — create the namespace, then fill in the id).
+# Get the id with:  bunx wrangler kv namespace create WAITLIST
+# [[kv_namespaces]]
+# binding = "WAITLIST"
+# id = "<your-kv-namespace-id>"
+
+# Secrets (RESEND_API_KEY) and vars (RESEND_AUDIENCE_ID) are set in the
+# Cloudflare dashboard: Pages project → Settings → Environment variables.
+# For local dev with `wrangler pages dev`, put them in .dev.vars (gitignored).

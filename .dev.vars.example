@@ -1,0 +1,5 @@
+# Copy to .dev.vars (gitignored) for local `wrangler pages dev` testing.
+# In production these are set in the Cloudflare Pages dashboard instead.
+
+RESEND_API_KEY=re_your_api_key_here
+RESEND_AUDIENCE_ID=your_audience_uuid_here

@@ -48,19 +48,40 @@ bun --bun run build
 bunx wrangler pages deploy dist --project-name mysafescreen
 ```
 
-### Wiring up the waitlist (optional but recommended)
-`functions/api/waitlist.js` stores signups in a Cloudflare **KV** namespace if one is bound:
+### Wiring up the waitlist
 
-1. **Workers & Pages → KV** → create a namespace (e.g. `safescreen-waitlist`).
-2. Pages project → **Settings → Functions → KV namespace bindings**.
-3. Add binding: **Variable name** `WAITLIST` → your namespace.
+`functions/api/waitlist.js` supports two sinks, both optional. The form works even if neither is
+configured (signups are accepted and logged), so nothing breaks before you set this up.
 
-Without a binding the form still works (signups are accepted and logged); they just aren't persisted.
-To export collected emails later, read the KV namespace via `wrangler kv:key list`.
+#### Recommended: Resend Audience (free)
+Resend's free tier (3,000 emails/month) includes **Audiences** — store the waitlist *and* send a launch
+broadcast later, from one place.
 
-> Prefer a managed list (Buttondown, Resend, ConvertKit, Mailchimp)? Swap the `env.WAITLIST.put(...)`
-> call in `functions/api/waitlist.js` for a `fetch()` to that provider's API and add the API key as a
-> Pages secret.
+1. Sign up at [resend.com](https://resend.com) (free).
+2. **Audiences** → create one (e.g. "SafeScreen waitlist") → copy its **Audience ID** (a UUID).
+3. **API Keys** → create a key → copy it (`re_...`).
+4. Cloudflare Pages project → **Settings → Environment variables** → add (for Production *and* Preview):
+   - `RESEND_API_KEY` = your `re_...` key  → mark as **Secret (encrypt)**
+   - `RESEND_AUDIENCE_ID` = the audience UUID
+5. Redeploy. New signups now appear under that audience in the Resend dashboard.
+6. **To actually email the list at launch:** in Resend, verify `mysafescreen.com` as a sending domain
+   (it auto-generates the DNS records — add them in Cloudflare DNS), then send a **Broadcast** to the audience.
+
+#### Optional: also store in Cloudflare KV
+1. `bunx wrangler kv namespace create WAITLIST` → copy the id into `wrangler.toml`.
+2. Or: Pages project → **Settings → Functions → KV namespace bindings** → bind `WAITLIST`.
+
+Export KV later with `bunx wrangler kv key list --binding WAITLIST`.
+
+#### Local testing of the function
+```bash
+cp .dev.vars.example .dev.vars   # fill in your keys (gitignored)
+bun --bun run build
+bunx wrangler pages dev dist      # serves the Functions too
+```
+
+> Prefer MailerLite / Kit / Mailchimp instead? Swap the `addToResend()` body in
+> `functions/api/waitlist.js` for that provider's "add subscriber" endpoint — same shape.
 
 ## Design system
 
