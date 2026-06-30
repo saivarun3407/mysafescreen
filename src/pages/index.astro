@@ -16,7 +16,7 @@ const useCases = [
   },
   {
     role: 'Anyone targeted',
-    body: 'Deepfakes and leaked images spread in seconds. SafeScreen flags AI-faked faces in real time, before they reach you.',
+    body: 'Deepfakes and leaked images spread in seconds. SafeScreen helps flag possible AI-faked images before they reach you.',
   },
   {
     role: 'Privacy-first',
@@ -34,16 +34,42 @@ const useCases = [
           Harmful images, blurred before you see them.
         </h1>
         <p class="mt-6 max-w-md text-lg leading-relaxed text-fg-2">
-          No uploads, no cloud. Real-time protection that runs entirely on your phone.
+          SafeScreen catches explicit and AI-faked images in real time, on your phone. No cloud, no uploads.
         </p>
 
         <div class="mt-8">
           <WaitlistForm />
         </div>
+
+        <div class="mt-6 space-y-1.5 text-sm text-fg-3">
+          <p class="flex items-center gap-2">
+            <span class="h-1 w-1 rounded-full bg-accent"></span>
+            No internet permission. You can verify it in the app.
+          </p>
+          <p class="flex items-center gap-2">
+            <span class="h-1 w-1 rounded-full bg-accent"></span>
+            Android today. iOS coming later.
+          </p>
+        </div>
       </div>
 
       <div class="flex justify-center lg:justify-end">
         <PhoneMock />
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO (placeholder — drop a 15s screen recording here) -->
+  <section class="container-tight mt-16">
+    <div class="mx-auto flex aspect-video max-w-3xl items-center justify-center overflow-hidden rounded-xl border border-line bg-surface">
+      <div class="flex flex-col items-center text-center">
+        <div class="flex h-14 w-14 items-center justify-center rounded-full border border-line">
+          <svg viewBox="0 0 24 24" class="h-6 w-6 text-accent" fill="currentColor" aria-hidden="true">
+            <path d="M9 7.5v9l7-4.5-7-4.5Z" />
+          </svg>
+        </div>
+        <p class="mt-4 text-fg">See it in action</p>
+        <p class="mono mt-1 text-xs text-fg-3">15-SECOND DEMO COMING SOON</p>
       </div>
     </div>
   </section>
