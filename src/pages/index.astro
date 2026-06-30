@@ -3,24 +3,25 @@ import Layout from '../layouts/Layout.astro';
 import PhoneMock from '../components/PhoneMock.astro';
 import WaitlistForm from '../components/WaitlistForm.astro';
 
-const stats = [
-  { value: '0', label: 'bytes leave your phone' },
-  { value: '<26ms', label: 'to scan a frame' },
-  { value: '100%', label: 'on-device AI' },
-  { value: 'Any', label: 'app, system-wide' },
-];
-
 const steps = [
-  { n: '01', title: 'It watches your screen', body: 'Sees what you see, in any app, the moment it appears.' },
-  { n: '02', title: 'AI judges it on your phone', body: 'Two small models check for explicit and AI-faked imagery. No cloud.' },
-  { n: '03', title: 'It blurs before you see it', body: 'Flagged content is blurred and labelled. You choose whether to reveal it.' },
+  { n: '01', body: 'Install SafeScreen.' },
+  { n: '02', body: 'Turn on protection.' },
+  { n: '03', body: 'Harmful images blur before you see them.' },
 ];
 
-const guarantees = [
-  'No internet permission',
-  'Works in airplane mode',
-  'No accounts, no sign-up',
-  'No tracking, no telemetry',
+const useCases = [
+  {
+    role: 'Parents',
+    body: 'Kids run into explicit content online. SafeScreen blurs it across every app they open, with no per-app setup.',
+  },
+  {
+    role: 'Anyone targeted',
+    body: 'Deepfakes and leaked images spread in seconds. SafeScreen flags AI-faked faces in real time, before they reach you.',
+  },
+  {
+    role: 'Privacy-first',
+    body: 'You don’t trust apps that upload your screen. SafeScreen runs entirely on your phone. Nothing ever leaves the device.',
+  },
 ];
 ---
 
@@ -29,28 +30,15 @@ const guarantees = [
   <section class="container-tight pt-20 pb-8 sm:pt-28">
     <div class="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
       <div>
-        <p class="eyebrow">On-device. Nothing leaves your phone.</p>
-        <h1 class="mt-5 text-[2.5rem] leading-[1.05] sm:text-[3.4rem]">
-          Harmful content, blurred before you see it.
+        <h1 class="text-[2.6rem] leading-[1.04] sm:text-[3.5rem]">
+          Harmful images, blurred before you see them.
         </h1>
         <p class="mt-6 max-w-md text-lg leading-relaxed text-fg-2">
-          SafeScreen blurs explicit and AI-faked images in real time, in any app, before they reach you.
-          Every check runs on your phone.
+          No uploads, no cloud. Real-time protection that runs entirely on your phone.
         </p>
 
         <div class="mt-8">
           <WaitlistForm />
-        </div>
-
-        <div class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-fg-3">
-          {
-            guarantees.slice(0, 3).map((g) => (
-              <span class="inline-flex items-center gap-2">
-                <span class="h-1 w-1 rounded-full bg-accent" />
-                {g}
-              </span>
-            ))
-          }
         </div>
       </div>
 
@@ -60,70 +48,45 @@ const guarantees = [
     </div>
   </section>
 
-  <!-- STATS -->
-  <section class="container-tight pt-12">
-    <div class="grid grid-cols-2 border-t border-line-soft sm:grid-cols-4">
-      {
-        stats.map((s) => (
-          <div class="border-b border-line-soft px-2 py-7 sm:border-b-0 sm:border-l sm:first:border-l-0 sm:pl-6">
-            <div class="mono text-2xl text-fg sm:text-[1.6rem]">{s.value}</div>
-            <div class="mt-1 text-sm text-fg-3">{s.label}</div>
-          </div>
-        ))
-      }
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section class="container-tight mt-28">
+  <!-- HOW -->
+  <section class="container-tight mt-24">
     <p class="eyebrow">How it works</p>
-    <h2 class="mt-5 max-w-xl text-3xl sm:text-4xl">Three steps. All on your phone.</h2>
-
-    <div class="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
+    <div class="mt-8 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
       {
         steps.map((step) => (
-          <div class="bg-surface p-7">
-            <div class="mono text-sm text-accent">{step.n}</div>
-            <h3 class="mt-4 text-xl">{step.title}</h3>
-            <p class="mt-3 leading-relaxed text-fg-2">{step.body}</p>
+          <div class="flex items-baseline gap-4 bg-surface p-7">
+            <span class="mono text-sm text-accent">{step.n}</span>
+            <p class="text-lg text-fg">{step.body}</p>
           </div>
         ))
       }
     </div>
-
-    <a href="/how-it-works" class="link-accent mt-8 inline-block text-sm">Read the full breakdown</a>
   </section>
 
-  <!-- PRIVATE -->
-  <section class="container-tight mt-28">
-    <div class="grid gap-12 lg:grid-cols-2">
-      <div>
-        <p class="eyebrow">The difference</p>
-        <h2 class="mt-5 text-3xl sm:text-4xl">The app you can't put in the cloud.</h2>
-        <p class="mt-6 max-w-md text-lg leading-relaxed text-fg-2">
-          To check if an image is explicit, or a deepfake of you, a cloud has to receive it first.
-          SafeScreen never does. The AI runs on your phone, where the image already is.
-        </p>
-        <a href="/privacy" class="link-accent mt-6 inline-block text-sm">How we prove it</a>
-      </div>
-
-      <ul class="grid content-start gap-px self-start overflow-hidden rounded-xl border border-line bg-line">
-        {
-          guarantees.map((g) => (
-            <li class="flex items-center gap-3 bg-surface px-5 py-4">
-              <svg viewBox="0 0 20 20" class="h-4 w-4 shrink-0 text-accent" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="m4 10.5 3.5 3.5L16 6" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-              <span class="text-fg">{g}</span>
-            </li>
-          ))
-        }
-      </ul>
+  <!-- USE CASES -->
+  <section class="container-tight mt-24">
+    <p class="eyebrow">Who it's for</p>
+    <div class="mt-8 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
+      {
+        useCases.map((u) => (
+          <div class="bg-surface p-7">
+            <h3 class="text-lg text-fg">{u.role}</h3>
+            <p class="mt-3 leading-relaxed text-fg-2">{u.body}</p>
+          </div>
+        ))
+      }
     </div>
+  </section>
+
+  <!-- DIFFERENTIATOR -->
+  <section class="container-tight mt-24">
+    <p class="max-w-3xl text-2xl leading-snug text-fg sm:text-[1.7rem]">
+      Only SafeScreen blocks harmful images in real time, without sending a single byte off your phone.
+    </p>
   </section>
 
   <!-- CTA -->
-  <section id="waitlist" class="container-tight mt-28">
+  <section id="waitlist" class="container-tight mt-24">
     <div class="card flex flex-col items-start gap-7 p-10 sm:p-14">
       <div>
         <h2 class="text-3xl sm:text-4xl">Be first to protect your screen.</h2>
