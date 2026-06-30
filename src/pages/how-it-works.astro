@@ -6,158 +6,133 @@ const pipeline = [
   {
     n: '01',
     title: 'Capture the screen',
-    body: 'A background service mirrors what is on your screen, frame by frame — in any app. This is the same secure capture mechanism your phone already uses for screen recording, kept entirely on-device.',
+    body: 'A background service mirrors what is on your screen, frame by frame, in any app — the same secure mechanism your phone already uses for screen recording, kept entirely on-device.',
   },
   {
     n: '02',
     title: 'A fast first pass, every frame',
-    body: 'A compact image classifier (MobileNet-class, ~10MB) checks every frame for explicit content. It is cheap enough to run continuously without draining your battery — paired with a classic skin-tone backstop so two weak signals make one robust decision.',
+    body: 'A compact image classifier (~10MB) checks every frame for explicit content, paired with a skin-tone backstop so two weak signals make one robust decision. Cheap enough to run continuously.',
   },
   {
     n: '03',
     title: 'A deeper check, only when needed',
-    body: 'When something looks like it might be an AI-generated face, a second model takes a closer look. It runs only on candidate frames — not every frame — so the expensive check never slows the experience down.',
+    body: 'When something looks like an AI-generated face, a second model takes a closer look — only on candidate frames, never every frame, so the expensive check never slows things down.',
   },
   {
     n: '04',
     title: 'Decide, then intervene',
-    body: 'A policy engine combines the signals, smooths them over time to avoid flicker, and decides: clear, warn, or blur. If it blurs, you see a label and a "tap to reveal" — you are always in control.',
+    body: 'A policy engine combines the signals, smooths them over time, and decides: clear, warn, or blur. If it blurs, you see a label and tap to reveal. You stay in control.',
   },
 ];
 
 const specs = [
-  { label: 'Total model size', value: '~26 MB', note: 'Two models, bundled in the app' },
-  { label: 'Per-frame latency', value: '< 26 ms', note: 'Measured on a Galaxy S25 Ultra' },
-  { label: 'Network calls in the safety path', value: '0', note: 'There is no internet permission' },
-  { label: 'Runtime', value: 'ExecuTorch', note: 'On-device, Snapdragon-accelerated' },
+  { label: 'Total model size', value: '~26 MB' },
+  { label: 'Per-frame latency', value: '<26 ms' },
+  { label: 'Network calls', value: '0' },
+  { label: 'Runtime', value: 'On-device' },
 ];
 ---
 
 <Layout
-  title="How SafeScreen works — on-device AI, explained"
-  description="A clear look at how SafeScreen detects and blurs harmful and AI-faked imagery in real time, entirely on your device. Two compact models, a fast cascade, zero cloud."
+  title="How SafeScreen works"
+  description="How SafeScreen detects and blurs harmful and AI-faked imagery in real time, entirely on your device. Two compact models, a fast cascade, zero cloud."
 >
-  <section class="relative overflow-hidden pt-36 sm:pt-44">
-    <div class="grid-lines pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
-    <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
-      <p class="reveal text-sm font-600 uppercase tracking-widest text-safe-400">How it works</p>
-      <h1 class="reveal mt-4 font-display text-4xl font-700 leading-[1.08] sm:text-6xl">
-        Real-time AI safety,<br /><span class="text-gradient">running entirely on your phone.</span>
-      </h1>
-      <p class="reveal mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-mist-300">
-        No cloud. No accounts. No waiting on a server. Here's the path a single frame takes — from the
-        moment it appears on your screen to the moment SafeScreen decides whether you should see it.
-      </p>
-    </div>
+  <section class="container-tight pt-20 pb-4 sm:pt-28">
+    <p class="eyebrow">How it works</p>
+    <h1 class="mt-5 max-w-3xl text-[2.4rem] leading-[1.06] sm:text-5xl">
+      Real-time AI safety, running entirely on your phone.
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-fg-2">
+      No cloud, no accounts, no waiting on a server. Here's the path a single frame takes — from the moment
+      it appears on your screen to the moment SafeScreen decides whether you should see it.
+    </p>
   </section>
 
   <!-- pipeline -->
-  <section class="mx-auto mt-20 max-w-4xl px-5 sm:px-8">
-    <div class="relative">
-      <div class="absolute left-[1.85rem] top-2 bottom-2 w-px bg-gradient-to-b from-safe-400/40 via-white/10 to-transparent sm:left-[2.1rem]" aria-hidden="true"></div>
-      <div class="space-y-5">
-        {
-          pipeline.map((p) => (
-            <div class="reveal relative flex gap-5 sm:gap-7">
-              <div class="ring-safe relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink-800 font-display text-sm font-700 text-safe-300 sm:h-[4.25rem] sm:w-[4.25rem] sm:text-lg">
-                {p.n}
-              </div>
-              <div class="card card-hover flex-1 rounded-2xl p-6 sm:p-7">
-                <h3 class="text-xl font-600">{p.title}</h3>
-                <p class="mt-3 leading-relaxed text-mist-400">{p.body}</p>
-              </div>
+  <section class="container-tight mt-16">
+    <div class="overflow-hidden rounded-xl border border-line">
+      {
+        pipeline.map((p, i) => (
+          <div class:list={['grid gap-4 p-7 sm:grid-cols-[3rem_1fr] sm:gap-7', i > 0 && 'border-t border-line']}>
+            <div class="mono text-sm text-accent">{p.n}</div>
+            <div>
+              <h3 class="text-xl">{p.title}</h3>
+              <p class="mt-2 leading-relaxed text-fg-2">{p.body}</p>
             </div>
-          ))
-        }
-      </div>
+          </div>
+        ))
+      }
     </div>
   </section>
 
-  <!-- the cascade insight -->
-  <section class="mx-auto mt-28 max-w-6xl px-5 sm:px-8">
-    <div class="card reveal rounded-[2rem] p-8 sm:p-12">
-      <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
-        <div>
-          <p class="text-sm font-600 uppercase tracking-widest text-safe-400">The core idea</p>
-          <h2 class="mt-4 text-3xl font-700 sm:text-4xl">Cheap check often. Expensive check rarely.</h2>
-          <p class="mt-5 leading-relaxed text-mist-300">
-            Running a heavy AI model on every single frame would melt your battery and lag your phone. So
-            SafeScreen uses a cascade: a light, fast model watches everything, and only escalates to the
-            heavier model when something genuinely warrants a closer look.
-          </p>
-          <p class="mt-4 leading-relaxed text-mist-300">
-            That's what makes continuous, real-time protection possible on a phone — not a data center.
-          </p>
-        </div>
-        <div class="grid grid-cols-2 gap-3 self-center">
-          {
-            specs.map((s) => (
-              <div class="glass rounded-2xl p-5">
-                <div class="font-display text-2xl font-700 text-mist-100">{s.value}</div>
-                <div class="mt-1 text-sm font-500 text-mist-200">{s.label}</div>
-                <div class="mt-1 text-xs text-mist-500">{s.note}</div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
+  <!-- specs -->
+  <section class="container-tight mt-20">
+    <div class="grid grid-cols-2 border-t border-line-soft sm:grid-cols-4">
+      {
+        specs.map((s) => (
+          <div class="border-b border-line-soft px-2 py-7 sm:border-b-0 sm:border-l sm:first:border-l-0 sm:pl-6">
+            <div class="mono text-2xl text-fg">{s.value}</div>
+            <div class="mt-1 text-sm text-fg-3">{s.label}</div>
+          </div>
+        ))
+      }
     </div>
   </section>
 
   <!-- two detectors -->
-  <section class="mx-auto mt-28 max-w-6xl px-5 sm:px-8">
-    <div class="reveal mx-auto max-w-2xl text-center">
-      <p class="text-sm font-600 uppercase tracking-widest text-safe-400">Two jobs, two models</p>
-      <h2 class="mt-4 text-3xl font-700 sm:text-4xl">What SafeScreen looks for.</h2>
-    </div>
-    <div class="mt-12 grid gap-5 md:grid-cols-2">
-      <div class="card card-hover reveal rounded-2xl p-8">
-        <div class="inline-flex items-center gap-2 rounded-full bg-safe-500/15 px-3 py-1 text-xs font-600 text-safe-300">Primary · every frame</div>
-        <h3 class="mt-4 text-2xl font-700">Explicit imagery</h3>
-        <p class="mt-3 leading-relaxed text-mist-400">
+  <section class="container-tight mt-32">
+    <p class="eyebrow">Two jobs, two models</p>
+    <h2 class="mt-5 text-3xl sm:text-4xl">What SafeScreen looks for.</h2>
+    <div class="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2">
+      <div class="bg-surface p-8">
+        <p class="mono text-xs text-accent">PRIMARY · EVERY FRAME</p>
+        <h3 class="mt-4 text-2xl">Explicit imagery</h3>
+        <p class="mt-3 leading-relaxed text-fg-2">
           A purpose-built classifier flags nudity and explicit content, reinforced by a skin-tone signal so
           it stays robust on real-world content. This is the workhorse — it runs continuously and drives the blur.
         </p>
       </div>
-      <div class="card card-hover reveal rounded-2xl p-8">
-        <div class="inline-flex items-center gap-2 rounded-full bg-aqua-500/15 px-3 py-1 text-xs font-600 text-aqua-400">Secondary · triggered</div>
-        <h3 class="mt-4 text-2xl font-700">AI-generated faces</h3>
-        <p class="mt-3 leading-relaxed text-mist-400">
-          A second model estimates whether a face was synthetically generated. AI-image detection is genuinely
-          hard, so SafeScreen surfaces this as a confidence badge — "possibly AI-generated" — never a verdict.
+      <div class="bg-surface p-8">
+        <p class="mono text-xs text-fg-3">SECONDARY · TRIGGERED</p>
+        <h3 class="mt-4 text-2xl">AI-generated faces</h3>
+        <p class="mt-3 leading-relaxed text-fg-2">
+          A second model estimates whether a face was synthetically generated. This is genuinely hard, so
+          SafeScreen surfaces it as a confidence badge — "possibly AI-generated" — never a verdict.
         </p>
       </div>
     </div>
   </section>
 
   <!-- honest limits -->
-  <section class="mx-auto mt-28 max-w-4xl px-5 sm:px-8">
-    <div class="card reveal rounded-2xl border-l-2 border-l-warn-400/50 p-8">
-      <h2 class="text-2xl font-700">Where the limits are — said plainly.</h2>
-      <ul class="mt-5 space-y-4 text-mist-300">
-        <li class="flex gap-3">
-          <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-warn-400"></span>
-          <span><strong class="font-600 text-mist-100">AI-image detection doesn't generalize perfectly.</strong> No on-device detector does today. We report it as a confidence signal and keep improving it — we never claim certainty.</span>
+  <section class="container-tight mt-32">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Where the limits are</p>
+      <h2 class="mt-5 text-3xl sm:text-4xl">Said plainly.</h2>
+      <ul class="mt-8 space-y-5 text-fg-2">
+        <li class="border-l border-warn/50 pl-4">
+          <strong class="font-600 text-fg">AI-image detection doesn't generalize perfectly.</strong> No on-device
+          detector does today. We report it as a confidence signal and keep improving it — never certainty.
         </li>
-        <li class="flex gap-3">
-          <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-warn-400"></span>
-          <span><strong class="font-600 text-mist-100">It blurs the whole frame, not a region.</strong> When content is flagged, the screen blurs — precise region-level blur is on the roadmap.</span>
+        <li class="border-l border-warn/50 pl-4">
+          <strong class="font-600 text-fg">It blurs the whole frame, not a region.</strong> Region-precise blur is
+          on the roadmap.
         </li>
-        <li class="flex gap-3">
-          <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-warn-400"></span>
-          <span><strong class="font-600 text-mist-100">Today it focuses on images and video.</strong> Text moderation is a future addition, not part of v1.</span>
+        <li class="border-l border-warn/50 pl-4">
+          <strong class="font-600 text-fg">Today it focuses on images and video.</strong> Text moderation is a
+          future addition, not part of v1.
         </li>
       </ul>
-      <p class="mt-6 text-sm text-mist-400">
-        We believe an honest safety tool is the only kind worth trusting. <a href="/about" class="text-safe-300 underline-offset-4 hover:underline">Read why we built this →</a>
+      <p class="mt-8 text-fg-3">
+        <a href="/about" class="link-accent">Read why we built this →</a>
       </p>
     </div>
   </section>
 
   <!-- CTA -->
-  <section id="waitlist" class="mx-auto mt-28 max-w-3xl px-5 text-center sm:px-8">
-    <h2 class="reveal text-3xl font-700 sm:text-4xl">Want it on your phone?</h2>
-    <p class="reveal mx-auto mt-4 max-w-lg text-lg text-mist-300">Join the waitlist — one email when we launch.</p>
-    <div class="reveal mt-8"><WaitlistForm /></div>
+  <section id="waitlist" class="container-tight mt-32">
+    <div class="card flex flex-col items-start gap-7 p-10 sm:p-14">
+      <h2 class="text-3xl sm:text-4xl">Want it on your phone?</h2>
+      <WaitlistForm />
+    </div>
   </section>
 </Layout>

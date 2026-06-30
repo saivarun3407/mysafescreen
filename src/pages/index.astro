@@ -4,370 +4,175 @@ import PhoneMock from '../components/PhoneMock.astro';
 import WaitlistForm from '../components/WaitlistForm.astro';
 
 const stats = [
-  { value: '0', unit: 'bytes', label: 'leave your device' },
-  { value: '< 26', unit: 'ms', label: 'to scan a frame' },
-  { value: '100%', unit: '', label: 'on-device AI' },
-  { value: 'Any', unit: 'app', label: 'system-wide protection' },
+  { value: '0', label: 'bytes leave your phone' },
+  { value: '<26ms', label: 'to scan a frame' },
+  { value: '100%', label: 'on-device AI' },
+  { value: 'Any', label: 'app, system-wide' },
 ];
 
 const steps = [
   {
     n: '01',
     title: 'It watches your screen',
-    body: 'A lightweight background service sees what you see — in any app, the moment it appears. No integrations, no per-app setup.',
-    icon: 'scan',
+    body: 'A lightweight background service sees what you see, in any app, the moment it appears. No per-app setup.',
   },
   {
     n: '02',
     title: 'AI judges it on your phone',
-    body: 'Two compact neural networks run right on your device: one flags explicit imagery, one flags AI-generated faces. ~26MB, real-time, no cloud.',
-    icon: 'cpu',
+    body: 'Two compact models — one for explicit imagery, one for AI-generated faces — run right on your device. No cloud.',
   },
   {
     n: '03',
     title: 'It blurs before you see it',
-    body: 'Harmful content is blurred and labelled before it reaches your eyes. You decide if you want to reveal it. Nothing is ever uploaded.',
-    icon: 'shield',
+    body: 'Harmful content is blurred and labelled before it reaches your eyes. You decide whether to reveal it.',
   },
 ];
 
-const honesty = [
-  {
-    title: 'Private by construction, not by promise',
-    body: 'The app ships with no internet permission. It physically cannot send your screen anywhere — verifiable in the app, and it keeps working in airplane mode.',
-  },
-  {
-    title: 'A signal, never a verdict',
-    body: 'AI-image detection is hard and we say so. SafeScreen shows it as a confidence badge — "possibly AI-generated" — and never pretends to be certain.',
-  },
-  {
-    title: 'You stay in control',
-    body: 'SafeScreen blurs and warns — it never deletes, reports, or phones home. Tap to reveal anything you choose. Your screen, your call.',
-  },
+const guarantees = [
+  'No internet permission',
+  'Works in airplane mode',
+  'No accounts, no sign-up',
+  'No tracking, no telemetry',
 ];
 ---
 
 <Layout>
-  <!-- ======================= HERO ======================= -->
-  <section class="relative overflow-hidden pt-32 sm:pt-40">
-    <div class="grid-lines pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
-
-    <div class="mx-auto grid max-w-6xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.1fr_0.9fr]">
+  <!-- HERO -->
+  <section class="container-tight pt-20 pb-8 sm:pt-28">
+    <div class="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
       <div>
-        <div class="reveal inline-flex items-center gap-2 rounded-full border hairline bg-ink-900/60 px-3.5 py-1.5 text-xs font-500 text-safe-300 backdrop-blur">
-          <span class="relative flex h-2 w-2">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-safe-400 opacity-60"></span>
-            <span class="relative inline-flex h-2 w-2 rounded-full bg-safe-400"></span>
-          </span>
-          On-device AI · No data ever leaves your phone
-        </div>
-
-        <h1 class="reveal mt-6 font-display text-[2.6rem] font-700 leading-[1.04] sm:text-6xl">
-          Harmful content,
-          <span class="text-gradient">blurred before</span>
-          you ever see it.
+        <p class="eyebrow">On-device · nothing leaves your phone</p>
+        <h1 class="mt-5 text-[2.5rem] leading-[1.05] sm:text-[3.4rem]">
+          Harmful content, blurred before you see it.
         </h1>
-
-        <p class="reveal mt-6 max-w-xl text-lg leading-relaxed text-mist-300">
-          SafeScreen is a safety layer for your phone. It spots explicit imagery and AI-faked photos in
-          real time — in <em class="text-mist-100 not-italic font-500">any</em> app — and blurs them before
-          they reach your eyes. Every check runs on your device. Nothing is ever uploaded.
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-fg-2">
+          SafeScreen is a safety layer for your phone. It spots explicit and AI-faked imagery in real
+          time — in any app — and blurs it before it reaches your eyes. Every check runs on your device.
+          Nothing is ever uploaded.
         </p>
 
-        <div class="reveal mt-8" id="waitlist-hero">
+        <div class="mt-8">
           <WaitlistForm />
         </div>
 
-        <div class="reveal mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-mist-400">
-          <span class="inline-flex items-center gap-1.5">
-            <span class="h-1.5 w-1.5 rounded-full bg-safe-400"></span> No internet permission
-          </span>
-          <span class="inline-flex items-center gap-1.5">
-            <span class="h-1.5 w-1.5 rounded-full bg-safe-400"></span> Works in airplane mode
-          </span>
-          <span class="inline-flex items-center gap-1.5">
-            <span class="h-1.5 w-1.5 rounded-full bg-safe-400"></span> No accounts, no tracking
-          </span>
+        <div class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-fg-3">
+          {
+            guarantees.slice(0, 3).map((g) => (
+              <span class="inline-flex items-center gap-2">
+                <span class="h-1 w-1 rounded-full bg-accent" />
+                {g}
+              </span>
+            ))
+          }
         </div>
       </div>
 
-      <div class="reveal flex justify-center lg:justify-end">
+      <div class="flex justify-center lg:justify-end">
         <PhoneMock />
       </div>
     </div>
-
-    <!-- stat strip -->
-    <div class="mx-auto mt-20 max-w-6xl px-5 sm:px-8">
-      <div class="card reveal grid grid-cols-2 gap-px overflow-hidden rounded-2xl md:grid-cols-4">
-        {
-          stats.map((s) => (
-            <div class="bg-ink-900/40 px-6 py-7 text-center">
-              <div class="font-display text-3xl font-700 text-mist-100">
-                {s.value}
-                <span class="ml-0.5 text-base font-500 text-safe-400">{s.unit}</span>
-              </div>
-              <div class="mt-1 text-xs text-mist-400">{s.label}</div>
-            </div>
-          ))
-        }
-      </div>
-    </div>
   </section>
 
-  <!-- ======================= PROBLEM ======================= -->
-  <section class="mx-auto mt-28 max-w-6xl px-5 sm:px-8">
-    <div class="reveal max-w-3xl">
-      <p class="text-sm font-600 uppercase tracking-widest text-safe-400">The problem</p>
-      <h2 class="mt-4 text-3xl font-700 sm:text-[2.6rem] sm:leading-tight">
-        By the time anyone reacts, the damage is already done.
-      </h2>
-      <p class="mt-5 text-lg leading-relaxed text-mist-300">
-        Explicit and AI-faked images spread faster than any moderation team can keep up with. They get
-        seen, screenshotted, and forwarded in seconds. And today's filters live in the cloud — which means
-        to check whether an image is harmful, your most private moments have to be uploaded to someone
-        else's server first. That upload <em class="not-italic font-500 text-mist-100">is</em> the harm.
-      </p>
-    </div>
-
-    <div class="mt-12 grid gap-5 md:grid-cols-3">
+  <!-- STATS -->
+  <section class="container-tight pt-12">
+    <div class="grid grid-cols-2 border-t border-line-soft sm:grid-cols-4">
       {
-        [
-          { stat: '~96%', label: 'of deepfake-abuse targets are women and girls.', sub: 'The people most exposed have the least recourse.' },
-          { stat: 'Seconds', label: 'is all it takes for an image to be forwarded.', sub: 'After-the-fact moderation is always too late.' },
-          { stat: 'The upload', label: 'is itself a privacy violation.', sub: 'Cloud filters must receive your private images to judge them.' },
-        ].map((c) => (
-          <div class="card card-hover reveal rounded-2xl p-7">
-            <div class="font-display text-3xl font-700 text-gradient">{c.stat}</div>
-            <p class="mt-3 font-500 text-mist-100">{c.label}</p>
-            <p class="mt-2 text-sm leading-relaxed text-mist-400">{c.sub}</p>
+        stats.map((s) => (
+          <div class="border-b border-line-soft px-2 py-7 sm:border-b-0 sm:border-l sm:first:border-l-0 sm:pl-6">
+            <div class="mono text-2xl text-fg sm:text-[1.6rem]">{s.value}</div>
+            <div class="mt-1 text-sm text-fg-3">{s.label}</div>
           </div>
         ))
       }
     </div>
   </section>
 
-  <!-- ======================= HOW IT WORKS ======================= -->
-  <section class="mx-auto mt-32 max-w-6xl px-5 sm:px-8">
-    <div class="reveal mx-auto max-w-2xl text-center">
-      <p class="text-sm font-600 uppercase tracking-widest text-safe-400">How it works</p>
-      <h2 class="mt-4 text-3xl font-700 sm:text-[2.6rem] sm:leading-tight">
-        Three steps. All of them on your phone.
-      </h2>
-      <p class="mt-5 text-lg text-mist-300">
-        No cloud round-trip. No waiting. The safety check happens in the moment, right where the content
-        appears.
+  <!-- PROBLEM -->
+  <section class="container-tight mt-32">
+    <div class="max-w-2xl">
+      <p class="eyebrow">The problem</p>
+      <h2 class="mt-5 text-3xl sm:text-4xl">By the time anyone reacts, the damage is done.</h2>
+      <p class="mt-6 text-lg leading-relaxed text-fg-2">
+        Explicit and AI-faked images spread faster than any moderation team can keep up with. And today's
+        filters live in the cloud — so to check whether an image is harmful, your most private moments
+        have to be uploaded to someone else's server first. That upload is itself the harm.
       </p>
     </div>
+  </section>
 
-    <div class="mt-14 grid gap-5 lg:grid-cols-3">
+  <!-- HOW IT WORKS -->
+  <section class="container-tight mt-32">
+    <p class="eyebrow">How it works</p>
+    <h2 class="mt-5 max-w-xl text-3xl sm:text-4xl">Three steps. All of them on your phone.</h2>
+
+    <div class="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
       {
         steps.map((step) => (
-          <div class="card card-hover reveal relative overflow-hidden rounded-3xl p-8">
-            <div
-              class="absolute -right-6 -top-8 font-display text-[7rem] font-700 leading-none text-white/[0.03]"
-              aria-hidden="true"
-            >
-              {step.n}
-            </div>
-            <div class="relative">
-              <div class="ring-safe inline-flex h-12 w-12 items-center justify-center rounded-xl bg-ink-800 text-safe-400">
-                {step.icon === 'scan' && (
-                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6">
-                    <path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16" stroke-linecap="round"/>
-                    <path d="M4 12h16" stroke-linecap="round"/>
-                  </svg>
-                )}
-                {step.icon === 'cpu' && (
-                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6">
-                    <rect x="7" y="7" width="10" height="10" rx="2"/>
-                    <path d="M10 2.5v2M14 2.5v2M10 19.5v2M14 19.5v2M2.5 10h2M2.5 14h2M19.5 10h2M19.5 14h2" stroke-linecap="round"/>
-                  </svg>
-                )}
-                {step.icon === 'shield' && (
-                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6">
-                    <path d="M12 3 4 6.2v5.1c0 4.4 3 7.6 8 9.4 5-1.8 8-5 8-9.4V6.2L12 3Z" stroke-linejoin="round"/>
-                    <path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                )}
-              </div>
-              <h3 class="mt-5 text-xl font-600">{step.title}</h3>
-              <p class="mt-3 leading-relaxed text-mist-400">{step.body}</p>
-            </div>
+          <div class="bg-surface p-7">
+            <div class="mono text-sm text-accent">{step.n}</div>
+            <h3 class="mt-4 text-xl">{step.title}</h3>
+            <p class="mt-3 leading-relaxed text-fg-2">{step.body}</p>
           </div>
         ))
       }
     </div>
 
-    <div class="reveal mt-8 text-center">
-      <a href="/how-it-works" class="inline-flex items-center gap-2 text-sm font-500 text-safe-300 transition-colors hover:text-safe-400">
-        See the full technical breakdown
-        <svg viewBox="0 0 16 16" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3.5 10.5 8 6 12.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
+    <a href="/how-it-works" class="link-accent mt-8 inline-block text-sm">Read the full breakdown →</a>
   </section>
 
-  <!-- ======================= PRIVATE BY CONSTRUCTION ======================= -->
-  <section class="relative mx-auto mt-32 max-w-6xl px-5 sm:px-8">
-    <div class="card reveal relative overflow-hidden rounded-[2rem] p-8 sm:p-14">
-      <div
-        class="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full opacity-50 blur-3xl"
-        style="background: radial-gradient(circle, color-mix(in oklab, var(--color-safe-500) 40%, transparent), transparent 70%)"
-        aria-hidden="true"
-      >
-      </div>
-
-      <div class="relative grid items-center gap-12 lg:grid-cols-[1fr_0.85fr]">
-        <div>
-          <p class="text-sm font-600 uppercase tracking-widest text-safe-400">The difference</p>
-          <h2 class="mt-4 text-3xl font-700 sm:text-[2.6rem] sm:leading-tight">
-            The app you <span class="text-gradient">can't</span> put in the cloud.
-          </h2>
-          <p class="mt-5 text-lg leading-relaxed text-mist-300">
-            To check whether an image is explicit — or a deepfake of you — a cloud service would have to
-            receive your most private images first. SafeScreen never does. The AI runs entirely on your
-            phone, so the judgement happens where the image already is.
-          </p>
-          <p class="mt-4 text-lg leading-relaxed text-mist-300">
-            On-device isn't a feature here. It's the only way to do this without becoming the problem.
-          </p>
-
-          <a href="/privacy" class="mt-7 inline-flex items-center gap-2 text-sm font-500 text-safe-300 transition-colors hover:text-safe-400">
-            How we prove it
-            <svg viewBox="0 0 16 16" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3.5 10.5 8 6 12.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-        </div>
-
-        <div class="space-y-3">
-          {
-            [
-              { k: 'No INTERNET permission', v: 'Verifiable in the app. It cannot exfiltrate what it sees.' },
-              { k: 'Works in airplane mode', v: 'Turn off the network and it still protects you.' },
-              { k: 'No accounts or sign-up', v: 'Nothing to register. No profile to leak.' },
-              { k: 'No tracking, no telemetry', v: 'Zero analytics leave the device. Ever.' },
-            ].map((row) => (
-              <div class="glass flex items-start gap-3 rounded-xl p-4">
-                <svg viewBox="0 0 20 20" class="mt-0.5 h-5 w-5 shrink-0 text-safe-400" fill="none" stroke="currentColor" stroke-width="1.7">
-                  <path d="m4 10.5 3.5 3.5L16 6" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div>
-                  <p class="font-600 text-mist-100">{row.k}</p>
-                  <p class="text-sm text-mist-400">{row.v}</p>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================= SYSTEM-WIDE ======================= -->
-  <section class="mx-auto mt-32 max-w-6xl px-5 sm:px-8">
-    <div class="grid items-center gap-12 lg:grid-cols-2">
-      <div class="reveal order-2 lg:order-1">
-        <p class="text-sm font-600 uppercase tracking-widest text-safe-400">Everywhere</p>
-        <h2 class="mt-4 text-3xl font-700 sm:text-[2.6rem] sm:leading-tight">
-          Protection that follows you across every app.
-        </h2>
-        <p class="mt-5 text-lg leading-relaxed text-mist-300">
-          Most safety tools work inside one app, if you remember to turn them on. SafeScreen protects the
-          screen itself — so it covers your messages, your browser, your social feeds, and the apps you
-          haven't even installed yet. One toggle, everywhere.
+  <!-- PRIVATE BY CONSTRUCTION -->
+  <section class="container-tight mt-32">
+    <div class="grid gap-12 lg:grid-cols-2">
+      <div>
+        <p class="eyebrow">The difference</p>
+        <h2 class="mt-5 text-3xl sm:text-4xl">The app you can't put in the cloud.</h2>
+        <p class="mt-6 text-lg leading-relaxed text-fg-2">
+          To check whether an image is explicit — or a deepfake of you — a cloud service would have to
+          receive your most private images first. SafeScreen never does. The AI runs entirely on your
+          phone, so the judgement happens where the image already is.
         </p>
-        <ul class="mt-7 space-y-3">
-          {
-            ['Social feeds & messaging', 'Web browsers & search', 'Email & file previews', 'Any new app, automatically'].map((item) => (
-              <li class="flex items-center gap-3 text-mist-200">
-                <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-safe-500/15 text-safe-400">
-                  <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"><path d="m3.5 8.5 2.6 2.6L12.5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-                {item}
-              </li>
-            ))
-          }
-        </ul>
+        <a href="/privacy" class="link-accent mt-6 inline-block text-sm">How we prove it →</a>
       </div>
 
-      <div class="reveal order-1 flex justify-center lg:order-2">
-        <div class="relative w-full max-w-sm">
-          <div class="card rounded-3xl p-6">
-            <div class="mb-4 flex items-center justify-between">
-              <span class="text-sm font-600 text-mist-100">SafeScreen</span>
-              <span class="inline-flex items-center gap-2 rounded-full bg-safe-500/15 px-3 py-1 text-xs font-500 text-safe-300">
-                <span class="h-1.5 w-1.5 rounded-full bg-safe-400"></span> Active
-              </span>
-            </div>
-            <div class="space-y-2.5">
-              {
-                ['Messages', 'Browser', 'Photos', 'Social'].map((app, i) => (
-                  <div class="flex items-center gap-3 rounded-xl border border-white/5 bg-ink-850 px-4 py-3">
-                    <div
-                      class="h-8 w-8 rounded-lg"
-                      style={`background: linear-gradient(135deg, hsl(${170 + i * 35} 70% 55%), hsl(${200 + i * 30} 70% 45%))`}
-                    />
-                    <span class="text-sm text-mist-200">{app}</span>
-                    <span class="ml-auto inline-flex items-center gap-1.5 text-xs text-safe-300">
-                      <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5 6.5 11 4 8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      Protected
-                    </span>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-        </div>
-      </div>
+      <ul class="grid content-start gap-px self-start overflow-hidden rounded-xl border border-line bg-line">
+        {
+          guarantees.map((g) => (
+            <li class="flex items-center gap-3 bg-surface px-5 py-4">
+              <svg viewBox="0 0 20 20" class="h-4 w-4 shrink-0 text-accent" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="m4 10.5 3.5 3.5L16 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span class="text-fg">{g}</span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
-  <!-- ======================= HONEST BY DESIGN ======================= -->
-  <section class="mx-auto mt-32 max-w-6xl px-5 sm:px-8">
-    <div class="reveal mx-auto max-w-2xl text-center">
-      <p class="text-sm font-600 uppercase tracking-widest text-safe-400">Honest by design</p>
-      <h2 class="mt-4 text-3xl font-700 sm:text-[2.6rem] sm:leading-tight">
-        A safety tool you can actually trust.
-      </h2>
-      <p class="mt-5 text-lg text-mist-300">
-        Trust is the whole product. So we're upfront about what SafeScreen does, what it doesn't, and
-        where the limits are.
+  <!-- HONEST -->
+  <section class="container-tight mt-32">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Honest by design</p>
+      <h2 class="mt-5 text-3xl sm:text-4xl">A safety tool you can actually trust.</h2>
+      <p class="mt-6 text-lg leading-relaxed text-fg-2">
+        SafeScreen blurs and warns — it never deletes, reports, or phones home. AI-image detection is
+        hard, so we show it as a confidence signal, never a verdict. And because there's no internet
+        permission, sending your data away isn't even possible.
       </p>
     </div>
-
-    <div class="mt-14 grid gap-5 md:grid-cols-3">
-      {
-        honesty.map((h) => (
-          <div class="card card-hover reveal rounded-2xl p-7">
-            <h3 class="text-lg font-600 text-mist-100">{h.title}</h3>
-            <p class="mt-3 leading-relaxed text-mist-400">{h.body}</p>
-          </div>
-        ))
-      }
-    </div>
   </section>
 
-  <!-- ======================= WAITLIST CTA ======================= -->
-  <section id="waitlist" class="mx-auto mt-32 max-w-6xl px-5 sm:px-8">
-    <div class="card reveal relative overflow-hidden rounded-[2.5rem] px-6 py-16 text-center sm:px-14 sm:py-20">
-      <div class="grid-lines pointer-events-none absolute inset-0 -z-0 opacity-60" aria-hidden="true"></div>
-      <div
-        class="pointer-events-none absolute left-1/2 top-0 -z-0 h-64 w-[40rem] max-w-full -translate-x-1/2 opacity-60 blur-3xl"
-        style="background: radial-gradient(50% 50% at 50% 0%, color-mix(in oklab, var(--color-safe-500) 35%, transparent), transparent 70%)"
-        aria-hidden="true"
-      >
-      </div>
-
-      <div class="relative">
-        <h2 class="mx-auto max-w-2xl text-3xl font-700 sm:text-[2.8rem] sm:leading-[1.08]">
-          Be first to protect your screen.
-        </h2>
-        <p class="mx-auto mt-5 max-w-xl text-lg text-mist-300">
-          SafeScreen is launching soon. Join the waitlist and we'll send you a single email the moment
-          it's ready to download — nothing else.
+  <!-- WAITLIST CTA -->
+  <section id="waitlist" class="container-tight mt-32">
+    <div class="card flex flex-col items-start gap-8 p-10 sm:p-14">
+      <div>
+        <h2 class="text-3xl sm:text-4xl">Be first to protect your screen.</h2>
+        <p class="mt-4 max-w-xl text-lg text-fg-2">
+          SafeScreen is launching soon. Join the waitlist and we'll send you a single email the moment it's
+          ready.
         </p>
-        <div class="mt-9">
-          <WaitlistForm />
-        </div>
       </div>
+      <WaitlistForm />
     </div>
   </section>
 </Layout>

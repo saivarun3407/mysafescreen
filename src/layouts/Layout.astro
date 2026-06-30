@@ -9,8 +9,8 @@ interface Props {
 }
 
 const {
-  title = 'SafeScreen — Harmful content, blurred before you ever see it',
-  description = 'SafeScreen is an on-device safety layer for your phone. It blurs explicit and AI-faked imagery in real time, in any app — and nothing ever leaves your device. No internet permission. Private by construction.',
+  title = 'SafeScreen — Harmful content, blurred before you see it',
+  description = 'SafeScreen is an on-device safety layer for your phone. It blurs explicit and AI-faked imagery in real time, in any app — and nothing ever leaves your device.',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -27,9 +27,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#050810" />
+    <meta name="theme-color" content="#0d0e11" />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SafeScreen" />
     <meta property="og:title" content={title} />
@@ -39,18 +38,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body class="bg-field min-h-screen antialiased">
+  <body class="min-h-screen">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-safe-500 focus:px-4 focus:py-2 focus:text-ink-950"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
       >Skip to content</a
     >
     <Nav />
@@ -58,30 +56,5 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
       <slot />
     </main>
     <Footer />
-
-    <script>
-      // Scroll-reveal: progressively unveil sections as they enter the viewport.
-      const io = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('in');
-              io.unobserve(entry.target);
-            }
-          }
-        },
-        { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
-      );
-      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-
-      // Nav: solidify on scroll.
-      const nav = document.getElementById('site-nav');
-      const onScroll = () => {
-        if (!nav) return;
-        nav.classList.toggle('nav-scrolled', window.scrollY > 12);
-      };
-      onScroll();
-      window.addEventListener('scroll', onScroll, { passive: true });
-    </script>
   </body>
 </html>
