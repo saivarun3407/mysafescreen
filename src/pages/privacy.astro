@@ -1,0 +1,152 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WaitlistForm from '../components/WaitlistForm.astro';
+
+const guarantees = [
+  {
+    title: 'No internet permission',
+    body: 'SafeScreen requests no network access at all. An app that cannot reach the internet cannot leak your screen to it — and you can verify this yourself in your phone’s app settings.',
+    proof: 'Verifiable in Android app permissions',
+  },
+  {
+    title: 'It works in airplane mode',
+    body: 'Turn off every radio on your phone and SafeScreen keeps protecting you. That’s the proof that nothing it does depends on a server.',
+    proof: 'Try it with the network fully off',
+  },
+  {
+    title: 'No accounts, ever',
+    body: 'There is nothing to sign up for. No email, no profile, no login. There is no account database to breach because there are no accounts.',
+    proof: 'Zero sign-up required',
+  },
+  {
+    title: 'No tracking or analytics',
+    body: 'SafeScreen collects no usage data, no telemetry, no crash pings tied to you. What happens on your phone stays on your phone.',
+    proof: 'Nothing measured, nothing sent',
+  },
+];
+
+const compare = [
+  { dim: 'Where your images are judged', cloud: 'Uploaded to a server', safe: 'On your device' },
+  { dim: 'What it takes to detect harm', cloud: 'Receiving your private images', safe: 'Never receiving them' },
+  { dim: 'Works offline', cloud: 'No', safe: 'Yes — airplane mode' },
+  { dim: 'Account required', cloud: 'Usually', safe: 'Never' },
+  { dim: 'Data that can leak', cloud: 'Whatever was uploaded', safe: 'Nothing leaves' },
+];
+---
+
+<Layout
+  title="Privacy & security — nothing ever leaves your device"
+  description="SafeScreen ships with no internet permission, works in airplane mode, and requires no account. The AI runs entirely on your phone. Private by construction, not by policy."
+>
+  <section class="relative overflow-hidden pt-36 sm:pt-44">
+    <div
+      class="pointer-events-none absolute left-1/2 top-10 -z-10 h-80 w-[44rem] max-w-full -translate-x-1/2 opacity-50 blur-3xl"
+      style="background: radial-gradient(50% 50% at 50% 0%, color-mix(in oklab, var(--color-safe-500) 30%, transparent), transparent 70%)"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
+      <div class="reveal inline-flex items-center gap-2 rounded-full border hairline bg-ink-900/60 px-3.5 py-1.5 text-xs font-500 text-safe-300">
+        <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="10" height="6.5" rx="1.5"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg>
+        Private by construction
+      </div>
+      <h1 class="reveal mt-5 font-display text-4xl font-700 leading-[1.08] sm:text-6xl">
+        Your screen never <span class="text-gradient">leaves your phone.</span>
+      </h1>
+      <p class="reveal mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-mist-300">
+        Most "safe" apps ask you to trust a privacy policy. SafeScreen removes the need for trust entirely:
+        it is built so that sending your data away is not even possible.
+      </p>
+    </div>
+  </section>
+
+  <!-- guarantees -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 sm:px-8">
+    <div class="grid gap-5 sm:grid-cols-2">
+      {
+        guarantees.map((g) => (
+          <div class="card card-hover reveal rounded-2xl p-8">
+            <div class="ring-safe inline-flex h-11 w-11 items-center justify-center rounded-xl bg-ink-800 text-safe-400">
+              <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m4 10.5 3.5 3.5L16 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="mt-5 text-xl font-600">{g.title}</h3>
+            <p class="mt-3 leading-relaxed text-mist-400">{g.body}</p>
+            <div class="mt-5 inline-flex items-center gap-2 rounded-full bg-safe-500/10 px-3 py-1.5 text-xs font-500 text-safe-300">
+              <span class="h-1.5 w-1.5 rounded-full bg-safe-400"></span>{g.proof}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- the argument -->
+  <section class="mx-auto mt-28 max-w-4xl px-5 sm:px-8">
+    <div class="card reveal rounded-[2rem] p-8 sm:p-12 text-center">
+      <h2 class="mx-auto max-w-2xl text-3xl font-700 sm:text-4xl sm:leading-tight">
+        To judge your most private images, a cloud must first <span class="text-gradient">receive</span> them.
+      </h2>
+      <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-mist-300">
+        That's the contradiction at the heart of cloud-based safety. The only way for a server to check
+        whether an image is explicit — or a deepfake of you — is to take a copy of it. The protection
+        becomes the exposure.
+      </p>
+      <p class="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-mist-300">
+        SafeScreen resolves it by never moving the image at all. The AI comes to your data, your data
+        never goes to the AI.
+      </p>
+    </div>
+  </section>
+
+  <!-- comparison -->
+  <section class="mx-auto mt-28 max-w-4xl px-5 sm:px-8">
+    <div class="reveal text-center">
+      <p class="text-sm font-600 uppercase tracking-widest text-safe-400">Cloud filters vs. SafeScreen</p>
+      <h2 class="mt-4 text-3xl font-700 sm:text-4xl">The same job, a different architecture.</h2>
+    </div>
+
+    <div class="card reveal mt-10 overflow-hidden rounded-2xl">
+      <div class="grid grid-cols-[1.4fr_1fr_1fr] gap-px bg-white/5 text-sm">
+        <div class="bg-ink-900 px-5 py-4 font-600 text-mist-300"></div>
+        <div class="bg-ink-900 px-5 py-4 text-center font-600 text-mist-400">Cloud filter</div>
+        <div class="bg-ink-850 px-5 py-4 text-center font-700 text-safe-300">SafeScreen</div>
+        {
+          compare.map((row) => (
+            <>
+              <div class="bg-ink-900 px-5 py-4 font-500 text-mist-200">{row.dim}</div>
+              <div class="bg-ink-900 px-5 py-4 text-center text-mist-400">{row.cloud}</div>
+              <div class="bg-ink-850 px-5 py-4 text-center font-500 text-mist-100">{row.safe}</div>
+            </>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- what we never do -->
+  <section class="mx-auto mt-28 max-w-4xl px-5 sm:px-8">
+    <div class="reveal">
+      <h2 class="text-3xl font-700 sm:text-4xl">What SafeScreen never does.</h2>
+      <div class="mt-8 grid gap-3 sm:grid-cols-2">
+        {
+          ['Upload your screen or images', 'Create an account or profile of you', 'Track what you look at', 'Report you to anyone', 'Delete or alter your content', 'Need a network connection to work'].map((item) => (
+            <div class="glass flex items-center gap-3 rounded-xl p-4">
+              <svg viewBox="0 0 20 20" class="h-5 w-5 shrink-0 text-warn-400" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 5l10 10M15 5 5 15" stroke-linecap="round"/></svg>
+              <span class="text-mist-200">{item}</span>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-6 text-mist-400">
+        SafeScreen blurs and warns. The choice to reveal anything is always, only, yours.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="waitlist" class="mx-auto mt-28 max-w-3xl px-5 text-center sm:px-8">
+    <h2 class="reveal text-3xl font-700 sm:text-4xl">Privacy you don't have to take on faith.</h2>
+    <p class="reveal mx-auto mt-4 max-w-lg text-lg text-mist-300">Join the waitlist and see it for yourself at launch.</p>
+    <div class="reveal mt-8"><WaitlistForm /></div>
+  </section>
+</Layout>

@@ -1,0 +1,64 @@
+---
+import Logo from './Logo.astro';
+
+const year = new Date().getFullYear();
+const cols = [
+  {
+    title: 'Product',
+    links: [
+      { href: '/how-it-works', label: 'How it works' },
+      { href: '/privacy', label: 'Privacy & security' },
+      { href: '/#waitlist', label: 'Join the waitlist' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { href: '/about', label: 'About & mission' },
+      { href: 'mailto:hello@mysafescreen.com', label: 'Contact' },
+    ],
+  },
+];
+---
+
+<footer class="relative mt-24 border-t hairline">
+  <div class="mx-auto max-w-6xl px-5 py-14 sm:px-8">
+    <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div class="max-w-xs">
+        <Logo />
+        <p class="mt-4 text-sm leading-relaxed text-mist-400">
+          An on-device safety layer for your screen. Harmful and AI-faked imagery, blurred before you see it —
+          and nothing ever leaves your phone.
+        </p>
+        <div class="mt-5 inline-flex items-center gap-2 rounded-full border hairline px-3 py-1.5 text-xs text-safe-300">
+          <span class="h-1.5 w-1.5 rounded-full bg-safe-400"></span>
+          Private by construction
+        </div>
+      </div>
+
+      {
+        cols.map((col) => (
+          <div>
+            <h3 class="text-xs font-600 uppercase tracking-widest text-mist-500">{col.title}</h3>
+            <ul class="mt-4 space-y-3">
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href} class="text-sm text-mist-300 transition-colors hover:text-safe-300">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 flex flex-col items-start justify-between gap-4 border-t hairline pt-6 text-xs text-mist-500 sm:flex-row sm:items-center">
+      <p>&copy; {year} SafeScreen. On-device safety for everyone.</p>
+      <p class="text-mist-500">
+        Built for the people most targeted — kids, teens, and anyone whose image can be turned against them.
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,24 @@
+# build output
+dist/
+.output/
+
+# dependencies
+node_modules/
+
+# astro
+.astro/
+
+# cloudflare
+.wrangler/
+
+# logs
+npm-debug.log*
+bun-debug.log*
+
+# environment
+.env
+.env.production
+.dev.vars
+
+# os
+.DS_Store

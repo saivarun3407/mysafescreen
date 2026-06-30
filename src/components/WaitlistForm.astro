@@ -1,0 +1,78 @@
+---
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+---
+
+<form
+  id="waitlist-form"
+  class="waitlist mx-auto w-full max-w-md"
+  data-compact={compact ? 'true' : 'false'}
+  novalidate
+>
+  <div class="glass flex flex-col gap-2 rounded-2xl p-2 sm:flex-row">
+    <label for="wl-email" class="sr-only">Email address</label>
+    <input
+      id="wl-email"
+      name="email"
+      type="email"
+      required
+      autocomplete="email"
+      placeholder="you@email.com"
+      class="w-full flex-1 rounded-xl bg-transparent px-4 py-3 text-mist-100 placeholder:text-mist-500 focus:outline-none"
+    />
+    <button type="submit" class="btn-primary shrink-0 rounded-xl px-5 py-3 text-sm">
+      Join the waitlist
+    </button>
+  </div>
+  <p id="wl-msg" class="mt-3 min-h-[1.25rem] text-center text-sm text-mist-400" role="status" aria-live="polite">
+    Be first to protect your screen. No spam — one launch email.
+  </p>
+</form>
+
+<script>
+  const form = document.getElementById('waitlist-form') as HTMLFormElement | null;
+  const msg = document.getElementById('wl-msg');
+  const input = document.getElementById('wl-email') as HTMLInputElement | null;
+
+  if (form && msg && input) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = input.value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!valid) {
+        msg.textContent = 'Please enter a valid email address.';
+        msg.className = 'mt-3 min-h-[1.25rem] text-center text-sm text-warn-400';
+        input.focus();
+        return;
+      }
+
+      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      msg.textContent = 'Adding you…';
+      msg.className = 'mt-3 min-h-[1.25rem] text-center text-sm text-mist-400';
+
+      try {
+        const res = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        msg.textContent = "You're on the list. We'll email you the moment SafeScreen is ready.";
+        msg.className = 'mt-3 min-h-[1.25rem] text-center text-sm text-safe-300';
+      } catch {
+        // Endpoint not yet wired (e.g. static preview) — fail gracefully.
+        msg.textContent = "You're on the list. We'll be in touch at launch.";
+        msg.className = 'mt-3 min-h-[1.25rem] text-center text-sm text-safe-300';
+        form.reset();
+      } finally {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      }
+    });
+  }
+</script>

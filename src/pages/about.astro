@@ -1,0 +1,114 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WaitlistForm from '../components/WaitlistForm.astro';
+
+const values = [
+  {
+    title: 'Protect the most targeted',
+    body: 'Image-based abuse falls hardest on kids, teens, and women. We build for them first — the people with the most to lose and the least recourse.',
+  },
+  {
+    title: 'Privacy is non-negotiable',
+    body: 'A safety tool that harvests your data is not a safety tool. Everything runs on your device, by design, with nothing to upload and nothing to leak.',
+  },
+  {
+    title: 'Honesty over hype',
+    body: 'We tell you exactly what works, what doesn’t yet, and where the edges are. Confidence you can verify beats claims you have to believe.',
+  },
+];
+---
+
+<Layout
+  title="About SafeScreen — why we built it"
+  description="SafeScreen began with people we know being harmed by deepfakes and online abuse. Our mission: put the safety check on the device, in real time, for the people most targeted."
+>
+  <section class="relative overflow-hidden pt-36 sm:pt-44">
+    <div class="grid-lines pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
+    <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
+      <p class="reveal text-sm font-600 uppercase tracking-widest text-safe-400">Our mission</p>
+      <h1 class="reveal mt-4 font-display text-4xl font-700 leading-[1.08] sm:text-6xl">
+        A safety layer for the people <span class="text-gradient">most targeted.</span>
+      </h1>
+      <p class="reveal mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-mist-300">
+        SafeScreen exists because the harm we kept seeing was always the same shape — and always too late to stop.
+      </p>
+    </div>
+  </section>
+
+  <!-- story -->
+  <section class="mx-auto mt-20 max-w-3xl px-5 sm:px-8">
+    <div class="card reveal rounded-[2rem] p-8 sm:p-12">
+      <div class="space-y-6 text-lg leading-relaxed text-mist-300">
+        <p>
+          Someone close to us was targeted by a deepfake. A friend's younger sister was harassed with
+          images online. Each time, the pattern repeated: by the time anyone could react, the harmful
+          content had already been seen, screenshotted, forwarded, and amplified.
+        </p>
+        <p>
+          The tools meant to stop this all lived in the cloud — reactive, after-the-fact, and built around
+          a quiet absurdity: to ask "is this image safe?", a victim first has to upload their most private
+          moment to someone else's server. The safeguard was its own kind of exposure.
+        </p>
+        <p class="text-mist-100 font-500">
+          So we made a different bet: put the safety check at the edge. On the device, in real time,
+          private by construction.
+        </p>
+        <p>
+          SafeScreen started as a focused engineering build — proving that two compact AI models could run
+          fast enough, on a phone, to blur harmful content <em class="not-italic">before</em> you see it,
+          without a single byte leaving the device. It worked. Now we're turning it into something everyone
+          can put on their phone.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- a hard number -->
+  <section class="mx-auto mt-20 max-w-4xl px-5 sm:px-8">
+    <div class="reveal text-center">
+      <div class="font-display text-6xl font-700 text-gradient sm:text-7xl">~96%</div>
+      <p class="mx-auto mt-4 max-w-xl text-lg text-mist-300">
+        of people targeted by deepfake abuse are women and girls. The technology that creates this harm is
+        getting cheaper and faster. The defense has to live where the harm lands — on the screen, in the moment.
+      </p>
+    </div>
+  </section>
+
+  <!-- values -->
+  <section class="mx-auto mt-24 max-w-6xl px-5 sm:px-8">
+    <div class="reveal mx-auto max-w-2xl text-center">
+      <p class="text-sm font-600 uppercase tracking-widest text-safe-400">What we stand for</p>
+      <h2 class="mt-4 text-3xl font-700 sm:text-4xl">Three commitments we won't trade away.</h2>
+    </div>
+    <div class="mt-12 grid gap-5 md:grid-cols-3">
+      {
+        values.map((v, i) => (
+          <div class="card card-hover reveal rounded-2xl p-8">
+            <div class="font-display text-2xl font-700 text-safe-400">0{i + 1}</div>
+            <h3 class="mt-3 text-xl font-600">{v.title}</h3>
+            <p class="mt-3 leading-relaxed text-mist-400">{v.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- vision -->
+  <section class="mx-auto mt-24 max-w-3xl px-5 sm:px-8">
+    <div class="reveal border-l-2 border-l-safe-400/50 pl-6 sm:pl-8">
+      <p class="font-display text-2xl font-600 leading-snug text-mist-100 sm:text-3xl">
+        "A private, real-time safety layer for everyone — starting with the people who need it most."
+      </p>
+      <p class="mt-4 text-mist-400">Next on the roadmap: faster on-device acceleration, region-precise blur, and text-based protection.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="waitlist" class="mx-auto mt-24 max-w-3xl px-5 text-center sm:px-8">
+    <h2 class="reveal text-3xl font-700 sm:text-4xl">Help us protect more screens.</h2>
+    <p class="reveal mx-auto mt-4 max-w-lg text-lg text-mist-300">
+      Join the waitlist — and be part of the launch.
+    </p>
+    <div class="reveal mt-8"><WaitlistForm /></div>
+  </section>
+</Layout>

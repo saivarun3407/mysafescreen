@@ -1,0 +1,20 @@
+{
+  "name": "mysafescreen",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "SafeScreen — on-device visual safety for your screen. Marketing site.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^5.6.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.4",
+    "tailwindcss": "^4.1.4"
+  }
+}
