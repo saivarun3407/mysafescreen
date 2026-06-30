@@ -6,7 +6,7 @@ const pipeline = [
   {
     n: '01',
     title: 'Capture the screen',
-    body: 'A background service mirrors what is on your screen, frame by frame, in any app — the same secure mechanism your phone already uses for screen recording, kept entirely on-device.',
+    body: 'A background service mirrors what is on your screen, frame by frame, in any app. It uses the same secure mechanism your phone already has for screen recording, kept entirely on-device.',
   },
   {
     n: '02',
@@ -16,7 +16,7 @@ const pipeline = [
   {
     n: '03',
     title: 'A deeper check, only when needed',
-    body: 'When something looks like an AI-generated face, a second model takes a closer look — only on candidate frames, never every frame, so the expensive check never slows things down.',
+    body: 'When something looks like an AI-generated face, a second model takes a closer look. Only on candidate frames, never every frame, so the expensive check never slows things down.',
   },
   {
     n: '04',
@@ -43,7 +43,7 @@ const specs = [
       Real-time AI safety, running entirely on your phone.
     </h1>
     <p class="mt-6 max-w-2xl text-lg leading-relaxed text-fg-2">
-      No cloud, no accounts, no waiting on a server. Here's the path a single frame takes — from the moment
+      No cloud, no accounts, no waiting on a server. Here's the path a single frame takes, from the moment
       it appears on your screen to the moment SafeScreen decides whether you should see it.
     </p>
   </section>
@@ -85,19 +85,19 @@ const specs = [
     <h2 class="mt-5 text-3xl sm:text-4xl">What SafeScreen looks for.</h2>
     <div class="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2">
       <div class="bg-surface p-8">
-        <p class="mono text-xs text-accent">PRIMARY · EVERY FRAME</p>
+        <p class="mono text-xs text-accent">RUNS EVERY FRAME</p>
         <h3 class="mt-4 text-2xl">Explicit imagery</h3>
         <p class="mt-3 leading-relaxed text-fg-2">
           A purpose-built classifier flags nudity and explicit content, reinforced by a skin-tone signal so
-          it stays robust on real-world content. This is the workhorse — it runs continuously and drives the blur.
+          it stays robust on real-world content. This is the workhorse. It runs continuously and drives the blur.
         </p>
       </div>
       <div class="bg-surface p-8">
-        <p class="mono text-xs text-fg-3">SECONDARY · TRIGGERED</p>
+        <p class="mono text-xs text-fg-3">RUNS WHEN TRIGGERED</p>
         <h3 class="mt-4 text-2xl">AI-generated faces</h3>
         <p class="mt-3 leading-relaxed text-fg-2">
           A second model estimates whether a face was synthetically generated. This is genuinely hard, so
-          SafeScreen surfaces it as a confidence badge — "possibly AI-generated" — never a verdict.
+          SafeScreen surfaces it as a confidence badge that says "possibly AI-generated", never a verdict.
         </p>
       </div>
     </div>
@@ -111,7 +111,7 @@ const specs = [
       <ul class="mt-8 space-y-5 text-fg-2">
         <li class="border-l border-warn/50 pl-4">
           <strong class="font-600 text-fg">AI-image detection doesn't generalize perfectly.</strong> No on-device
-          detector does today. We report it as a confidence signal and keep improving it — never certainty.
+          detector does today. We report it as a confidence signal and keep improving it, never certainty.
         </li>
         <li class="border-l border-warn/50 pl-4">
           <strong class="font-600 text-fg">It blurs the whole frame, not a region.</strong> Region-precise blur is

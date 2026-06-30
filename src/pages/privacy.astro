@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import WaitlistForm from '../components/WaitlistForm.astro';
 
 const guarantees = [
-  { title: 'No internet permission', body: 'The app requests no network access at all. An app that cannot reach the internet cannot leak your screen — verifiable in your phone’s settings.' },
+  { title: 'No internet permission', body: 'The app requests no network access at all. An app that cannot reach the internet cannot leak your screen. You can verify it in your phone’s settings.' },
   { title: 'It works in airplane mode', body: 'Turn off every radio and SafeScreen keeps protecting you. That’s the proof nothing it does depends on a server.' },
   { title: 'No accounts, ever', body: 'Nothing to sign up for. No email, no profile, no login. There’s no account database to breach because there are no accounts.' },
   { title: 'No tracking or analytics', body: 'No usage data, no telemetry, no crash pings tied to you. What happens on your phone stays on your phone.' },
@@ -28,7 +28,7 @@ const never = [
 ---
 
 <Layout
-  title="Privacy & security — nothing leaves your device"
+  title="Privacy and security | nothing leaves your device"
   description="SafeScreen ships with no internet permission, works in airplane mode, and requires no account. The AI runs entirely on your phone."
 >
   <section class="container-tight pt-20 pb-4 sm:pt-28">
@@ -63,7 +63,7 @@ const never = [
       <h2 class="mt-5 text-3xl sm:text-4xl">To judge your most private images, a cloud must first receive them.</h2>
       <p class="mt-6 text-lg leading-relaxed text-fg-2">
         That's the contradiction at the heart of cloud-based safety. The only way for a server to check
-        whether an image is explicit — or a deepfake of you — is to take a copy of it. The protection
+        whether an image is explicit, or a deepfake of you, is to take a copy of it. The protection
         becomes the exposure. SafeScreen resolves it by never moving the image at all.
       </p>
     </div>

@@ -11,21 +11,9 @@ const stats = [
 ];
 
 const steps = [
-  {
-    n: '01',
-    title: 'It watches your screen',
-    body: 'A lightweight background service sees what you see, in any app, the moment it appears. No per-app setup.',
-  },
-  {
-    n: '02',
-    title: 'AI judges it on your phone',
-    body: 'Two compact models — one for explicit imagery, one for AI-generated faces — run right on your device. No cloud.',
-  },
-  {
-    n: '03',
-    title: 'It blurs before you see it',
-    body: 'Harmful content is blurred and labelled before it reaches your eyes. You decide whether to reveal it.',
-  },
+  { n: '01', title: 'It watches your screen', body: 'Sees what you see, in any app, the moment it appears.' },
+  { n: '02', title: 'AI judges it on your phone', body: 'Two small models check for explicit and AI-faked imagery. No cloud.' },
+  { n: '03', title: 'It blurs before you see it', body: 'Flagged content is blurred and labelled. You choose whether to reveal it.' },
 ];
 
 const guarantees = [
@@ -41,14 +29,13 @@ const guarantees = [
   <section class="container-tight pt-20 pb-8 sm:pt-28">
     <div class="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
       <div>
-        <p class="eyebrow">On-device · nothing leaves your phone</p>
+        <p class="eyebrow">On-device. Nothing leaves your phone.</p>
         <h1 class="mt-5 text-[2.5rem] leading-[1.05] sm:text-[3.4rem]">
           Harmful content, blurred before you see it.
         </h1>
-        <p class="mt-6 max-w-xl text-lg leading-relaxed text-fg-2">
-          SafeScreen is a safety layer for your phone. It spots explicit and AI-faked imagery in real
-          time — in any app — and blurs it before it reaches your eyes. Every check runs on your device.
-          Nothing is ever uploaded.
+        <p class="mt-6 max-w-md text-lg leading-relaxed text-fg-2">
+          SafeScreen blurs explicit and AI-faked images in real time, in any app, before they reach you.
+          Every check runs on your phone.
         </p>
 
         <div class="mt-8">
@@ -87,23 +74,10 @@ const guarantees = [
     </div>
   </section>
 
-  <!-- PROBLEM -->
-  <section class="container-tight mt-32">
-    <div class="max-w-2xl">
-      <p class="eyebrow">The problem</p>
-      <h2 class="mt-5 text-3xl sm:text-4xl">By the time anyone reacts, the damage is done.</h2>
-      <p class="mt-6 text-lg leading-relaxed text-fg-2">
-        Explicit and AI-faked images spread faster than any moderation team can keep up with. And today's
-        filters live in the cloud — so to check whether an image is harmful, your most private moments
-        have to be uploaded to someone else's server first. That upload is itself the harm.
-      </p>
-    </div>
-  </section>
-
   <!-- HOW IT WORKS -->
-  <section class="container-tight mt-32">
+  <section class="container-tight mt-28">
     <p class="eyebrow">How it works</p>
-    <h2 class="mt-5 max-w-xl text-3xl sm:text-4xl">Three steps. All of them on your phone.</h2>
+    <h2 class="mt-5 max-w-xl text-3xl sm:text-4xl">Three steps. All on your phone.</h2>
 
     <div class="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
       {
@@ -117,21 +91,20 @@ const guarantees = [
       }
     </div>
 
-    <a href="/how-it-works" class="link-accent mt-8 inline-block text-sm">Read the full breakdown →</a>
+    <a href="/how-it-works" class="link-accent mt-8 inline-block text-sm">Read the full breakdown</a>
   </section>
 
-  <!-- PRIVATE BY CONSTRUCTION -->
-  <section class="container-tight mt-32">
+  <!-- PRIVATE -->
+  <section class="container-tight mt-28">
     <div class="grid gap-12 lg:grid-cols-2">
       <div>
         <p class="eyebrow">The difference</p>
         <h2 class="mt-5 text-3xl sm:text-4xl">The app you can't put in the cloud.</h2>
-        <p class="mt-6 text-lg leading-relaxed text-fg-2">
-          To check whether an image is explicit — or a deepfake of you — a cloud service would have to
-          receive your most private images first. SafeScreen never does. The AI runs entirely on your
-          phone, so the judgement happens where the image already is.
+        <p class="mt-6 max-w-md text-lg leading-relaxed text-fg-2">
+          To check if an image is explicit, or a deepfake of you, a cloud has to receive it first.
+          SafeScreen never does. The AI runs on your phone, where the image already is.
         </p>
-        <a href="/privacy" class="link-accent mt-6 inline-block text-sm">How we prove it →</a>
+        <a href="/privacy" class="link-accent mt-6 inline-block text-sm">How we prove it</a>
       </div>
 
       <ul class="grid content-start gap-px self-start overflow-hidden rounded-xl border border-line bg-line">
@@ -149,28 +122,12 @@ const guarantees = [
     </div>
   </section>
 
-  <!-- HONEST -->
-  <section class="container-tight mt-32">
-    <div class="max-w-2xl">
-      <p class="eyebrow">Honest by design</p>
-      <h2 class="mt-5 text-3xl sm:text-4xl">A safety tool you can actually trust.</h2>
-      <p class="mt-6 text-lg leading-relaxed text-fg-2">
-        SafeScreen blurs and warns — it never deletes, reports, or phones home. AI-image detection is
-        hard, so we show it as a confidence signal, never a verdict. And because there's no internet
-        permission, sending your data away isn't even possible.
-      </p>
-    </div>
-  </section>
-
-  <!-- WAITLIST CTA -->
-  <section id="waitlist" class="container-tight mt-32">
-    <div class="card flex flex-col items-start gap-8 p-10 sm:p-14">
+  <!-- CTA -->
+  <section id="waitlist" class="container-tight mt-28">
+    <div class="card flex flex-col items-start gap-7 p-10 sm:p-14">
       <div>
         <h2 class="text-3xl sm:text-4xl">Be first to protect your screen.</h2>
-        <p class="mt-4 max-w-xl text-lg text-fg-2">
-          SafeScreen is launching soon. Join the waitlist and we'll send you a single email the moment it's
-          ready.
-        </p>
+        <p class="mt-4 text-lg text-fg-2">Launching soon. One email when it's ready.</p>
       </div>
       <WaitlistForm />
     </div>
