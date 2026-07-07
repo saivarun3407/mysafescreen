@@ -22,3 +22,8 @@ bun-debug.log*
 
 # os
 .DS_Store
+
+# local self-analysis artifacts (personal — keep off the remote)
+evidence.md
+mirror.md
+roadmap.md
