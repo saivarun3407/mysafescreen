@@ -1,129 +1,510 @@
----
-import Layout from '../layouts/Layout.astro';
-import PhoneMock from '../components/PhoneMock.astro';
-import WaitlistForm from '../components/WaitlistForm.astro';
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SafeScreen — Harmful images, blurred before you see them</title>
+<meta name="description" content="SafeScreen is an on-device safety layer for your phone. It blurs explicit and AI-faked imagery in real time, in any app — and nothing ever leaves your device." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style is:inline>
+  /* ====== Ambient Shield tokens — same palette as the Android app ====== */
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#111111; --ink-2:#6F6F6A;
+    --hairline:#E8E5DD; --green:#167A4A; --green-tint:#EEF7F1; --muted:#B8B8B2;
+    --sans:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    --ease:cubic-bezier(.2,.6,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg); color:var(--ink-2); font-family:var(--sans); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility}
+  ::selection{background:color-mix(in oklab,var(--green) 22%,transparent)}
+  h1,h2,h3{color:var(--ink); font-weight:700; letter-spacing:-.025em; line-height:1.1; text-wrap:balance}
+  a{color:inherit; text-decoration:none}
+  .wrap{max-width:66rem; margin-inline:auto; padding-inline:1.5rem}
+  .mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
+  .eyebrow{font-family:var(--mono); font-size:.72rem; letter-spacing:.15em; text-transform:uppercase; color:var(--green); font-weight:500}
 
-const steps = [
-  { n: '01', body: 'Install SafeScreen.' },
-  { n: '02', body: 'Turn on protection.' },
-  { n: '03', body: 'Harmful content blurs. You choose what to reveal.' },
-];
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:.55rem; border-radius:999px; font-weight:600; font-size:1rem; padding:.85rem 1.6rem; cursor:pointer; border:1px solid transparent; transition:transform .15s var(--ease), background .15s var(--ease), border-color .15s var(--ease); font-family:var(--sans)}
+  .btn:active{transform:scale(.98)}
+  .btn-ink{background:var(--ink); color:#fff}
+  .btn-ink:hover{background:#000; transform:translateY(-1px)}
+  .btn-quiet{border-color:var(--hairline); color:var(--ink); background:var(--surface)}
+  .btn-quiet:hover{border-color:var(--green); color:var(--green)}
 
-// Each case is a 3-beat micro-story: setup (muted) → result (emphasized).
-const useCases = [
-  {
-    role: 'Parents',
-    setup: 'Your kid opens any app. Explicit content appears.',
-    outcome: 'Blurred before they see it. Zero per-app setup.',
-  },
-  {
-    role: 'Anyone targeted',
-    setup: 'A deepfake or leaked photo lands in a chat.',
-    outcome: 'Checked on your device, flagged before it catches you off guard.',
-  },
-  {
-    role: 'Privacy-first',
-    setup: 'You don’t trust apps that upload your screen.',
-    outcome: 'Every check runs locally. Your screen never leaves the phone.',
-  },
-];
----
+  /* nav */
+  header.top{position:sticky; top:0; z-index:50; border-bottom:1px solid var(--hairline); background:color-mix(in oklab,var(--bg) 86%,transparent); backdrop-filter:blur(12px)}
+  header.top .row{display:flex; height:64px; align-items:center; justify-content:space-between; gap:1rem}
+  .brand{display:flex; align-items:center; gap:.55rem; font-weight:700; color:var(--ink); font-size:1.05rem}
+  .navlinks{display:flex; gap:1.8rem; font-size:.95rem; color:var(--ink-2)}
+  .navlinks a:hover{color:var(--ink)}
+  @media(max-width:720px){.navlinks{display:none}}
+  header .btn{padding:.55rem 1.1rem; font-size:.9rem}
 
-<Layout>
-  <!-- HERO -->
-  <section class="container-tight pt-20 pb-8 sm:pt-28">
-    <div class="grid items-center gap-14 lg:grid-cols-[0.95fr_1.05fr]">
-      <div class="lg:order-2">
-        <h1 class="text-[2.6rem] font-bold leading-[1.05] tracking-[-0.03em] sm:text-[3.6rem]">
-          Harmful images, blurred before you see them.
-        </h1>
-        <p class="mt-6 max-w-md text-lg leading-relaxed text-fg-2">
-          Explicit and AI-faked content. Blurred on-device, in every app. Nothing leaves your phone.
-        </p>
+  /* ====== HERO ====== */
+  .hero{position:relative; overflow:hidden; border-bottom:1px solid var(--hairline)}
+  .hero .inner{display:grid; grid-template-columns:1.05fr .95fr; gap:3rem; align-items:center; padding-block:5rem 4rem}
+  @media(max-width:880px){.hero .inner{grid-template-columns:1fr; padding-block:3.5rem}}
+  .hero h1{font-size:clamp(2.4rem,5.5vw,3.9rem); letter-spacing:-.035em; max-width:15ch}
+  .hero .sub{margin-top:1.3rem; font-size:1.2rem; max-width:30rem; color:var(--ink-2)}
+  .hero .sub b{color:var(--ink); font-weight:600}
+  .hero .cta{margin-top:2rem; display:flex; flex-wrap:wrap; gap:.8rem; align-items:center}
+  .hero .trust{margin-top:1.6rem; display:grid; gap:.45rem; font-size:.92rem; color:var(--ink-2)}
+  .hero .trust span{display:flex; align-items:center; gap:.55rem}
+  .hero .trust i{width:6px;height:6px;border-radius:50%;background:var(--green);flex:none}
 
-        <div class="mt-8">
-          <WaitlistForm />
-        </div>
+  /* live phone demo */
+  .phonewrap{position:relative; display:flex; justify-content:center}
+  .phone{position:relative; width:min(300px,80vw); aspect-ratio:9/19; border-radius:2.2rem; border:1px solid var(--hairline); background:var(--surface); padding:.55rem; box-shadow:0 1px 0 #fff inset, 0 30px 60px -30px rgba(17,17,17,.28)}
+  .screen{position:relative; width:100%; height:100%; border-radius:1.7rem; overflow:hidden; background:#cfc4b8}
+  .screen canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
+  .ovcard{position:absolute; z-index:2; left:50%; top:50%; transform:translate(-50%,-50%); width:84%;
+    background:rgba(14,16,15,.85); color:#fff; border-radius:1.2rem; padding:1.15rem 1rem; text-align:center; transition:opacity .45s var(--ease)}
+  .ovcard .t{font-size:1rem; font-weight:600}
+  .ovcard .s{font-size:.78rem; color:rgba(255,255,255,.72); margin-top:.15rem}
+  .ovcard .score{font-family:var(--mono); color:#7fe0ab; font-size:.8rem; margin-top:.4rem}
+  .ovcard .reveal{margin-top:.7rem; background:#fff; color:#111; border:0; border-radius:999px; padding:.55rem 0; width:100%; font-weight:600; font-size:.78rem; font-family:var(--mono); letter-spacing:.07em; cursor:pointer}
+  .ovcard .lock{font-size:.66rem; color:#7fe0ab; margin-top:.5rem}
+  .demolabel{position:absolute; z-index:3; bottom:-2.4rem; left:0; right:0; text-align:center; font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; color:var(--ink-2)}
+  .demolabel b{color:var(--green); font-weight:500}
 
-        <div class="mt-6 space-y-1.5 text-sm text-fg-3">
-          <p class="flex items-center gap-2">
-            <span class="h-1 w-1 rounded-full bg-accent"></span>
-            No internet permission. You can verify it in the app.
-          </p>
-          <p class="flex items-center gap-2">
-            <span class="h-1 w-1 rounded-full bg-accent"></span>
-            Android today. iOS coming later.
-          </p>
-        </div>
+  /* sections */
+  section.block{padding-block:5rem; border-bottom:1px solid var(--hairline)}
+  .center{text-align:center}
+  .h2{font-size:clamp(1.7rem,3.4vw,2.4rem); letter-spacing:-.03em}
+  .kick{margin-bottom:1rem}
+  p.intro{max-width:38rem; margin:1rem auto 0; font-size:1.08rem}
+
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hairline); border:1px solid var(--hairline); border-radius:18px; overflow:hidden; margin-top:2.6rem}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--surface); padding:2rem 1.7rem}
+  .step .num{width:36px;height:36px;border-radius:50%;background:var(--green-tint); color:var(--green); display:flex;align-items:center;justify-content:center; font-family:var(--mono); font-size:.85rem; font-weight:500; margin-bottom:1rem}
+  .step h3{font-size:1.12rem; margin-bottom:.45rem}
+  .step p{font-size:.97rem}
+
+  /* mini phone visuals inside steps */
+  .viz{display:flex; justify-content:center; margin-bottom:1.4rem}
+  .mini{width:118px; aspect-ratio:9/17; border-radius:1.1rem; border:1px solid var(--hairline); background:var(--bg); padding:.28rem; box-shadow:0 10px 24px -16px rgba(17,17,17,.25)}
+  .mini .scr{position:relative; width:100%; height:100%; border-radius:.85rem; overflow:hidden; background:var(--surface); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem}
+  /* step 1: install */
+  .appicon{width:40px;height:40px;border-radius:12px;background:var(--green-tint);display:flex;align-items:center;justify-content:center}
+  .installbar{width:64%;height:5px;border-radius:99px;background:var(--hairline);overflow:hidden}
+  .installbar i{display:block;height:100%;width:0;background:var(--green);border-radius:99px}
+  .on .installbar i{animation:fill 1.4s var(--ease) .2s forwards}
+  @keyframes fill{to{width:100%}}
+  .mini .cap{font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;color:var(--ink-2)}
+  /* step 2: toggle */
+  .tog{width:56px;height:30px;border-radius:99px;background:var(--hairline);position:relative;transition:background .4s var(--ease)}
+  .tog i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .4s var(--ease)}
+  .on .tog{background:var(--green)} .on .tog i{left:29px}
+  .ringpulse{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none}
+  .ringpulse b{width:70px;height:70px;border-radius:50%;border:1.5px solid var(--green);opacity:0}
+  .on .ringpulse b{animation:pulse 2.2s var(--ease) .5s infinite}
+  @keyframes pulse{0%{transform:scale(.6);opacity:.5}100%{transform:scale(1.5);opacity:0}}
+  @media (prefers-reduced-motion:reduce){.on .ringpulse b{animation:none;opacity:.25;transform:scale(1.1)}
+    .on .installbar i{animation:none;width:100%}}
+  /* step 3: in action */
+  .blurbg{position:absolute; inset:0;
+    background:
+      radial-gradient(60% 40% at 30% 25%, #d9a06b 0%, transparent 70%),
+      radial-gradient(70% 50% at 75% 60%, #7d8fb3 0%, transparent 70%),
+      radial-gradient(80% 60% at 40% 85%, #c9b6a3 0%, transparent 70%), #b9a894;
+    filter:blur(9px) saturate(.9)}
+  .minicard{position:relative; z-index:2; width:84%; background:rgba(14,16,15,.87); border-radius:.6rem; padding:.5rem .4rem; text-align:center; color:#fff}
+  .minicard .mt{font-size:.5rem; font-weight:600}
+  .minicard .ms{font-family:var(--mono); font-size:.42rem; color:#7fe0ab; margin-top:.15rem}
+  .minicard .mb{margin-top:.3rem; background:#fff; color:#111; border-radius:99px; font-family:var(--mono); font-size:.4rem; letter-spacing:.05em; padding:.24rem 0; font-weight:600}
+
+  /* problem stats: source links */
+  .stat a.src{display:inline-block; margin-top:.45rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.04em; color:var(--ink-2); border-bottom:1px solid var(--hairline); transition:color .15s var(--ease), border-color .15s var(--ease)}
+  .stat a.src:hover{color:var(--green); border-color:var(--green)}
+
+  /* privacy proof */
+  .proof{display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center; margin-top:2.6rem}
+  @media(max-width:820px){.proof{grid-template-columns:1fr}}
+  .prooflist{display:grid; gap:1.1rem}
+  .prooflist .item{display:flex; gap:.9rem; align-items:flex-start}
+  .prooflist .ic{width:38px;height:38px;border-radius:12px;background:var(--green-tint);display:flex;align-items:center;justify-content:center;flex:none;color:var(--green)}
+  .prooflist h3{font-size:1.05rem; margin-bottom:.15rem}
+  .prooflist p{font-size:.95rem}
+  .airplane{border:1px solid var(--hairline); border-radius:18px; background:var(--surface); padding:2rem; text-align:center}
+  .airplane .big{font-size:2.6rem}
+  .airplane h3{font-size:1.15rem; margin-top:.6rem}
+  .airplane p{font-size:.95rem; margin-top:.4rem; max-width:26rem; margin-inline:auto}
+  .airplane .mono{color:var(--green); font-size:.75rem; margin-top:.9rem; display:block}
+
+  /* stats */
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--hairline); border:1px solid var(--hairline); border-radius:18px; overflow:hidden; margin-top:2.6rem}
+  @media(max-width:760px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{background:var(--surface); padding:1.7rem; text-align:center}
+  .stat .v{font-family:var(--mono); font-size:1.9rem; color:var(--ink); font-weight:500; letter-spacing:-.02em}
+  .stat .v em{color:var(--green); font-style:normal}
+  .stat .l{font-size:.85rem; margin-top:.3rem}
+
+  /* who */
+  .who{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hairline); border:1px solid var(--hairline); border-radius:18px; overflow:hidden; margin-top:2.6rem}
+  @media(max-width:760px){.who{grid-template-columns:1fr}}
+  .whocell{background:var(--surface); padding:1.9rem 1.7rem}
+  .whocell .eyebrow{font-size:.66rem}
+  .whocell p.q{margin-top:.9rem; font-size:.96rem; color:var(--ink-2)}
+  .whocell p.a{margin-top:.5rem; font-size:.96rem; color:var(--ink); font-weight:500}
+
+  /* download cta */
+  .dl{position:relative; overflow:hidden; border:1px solid var(--hairline); border-radius:24px; background:var(--surface); padding:3.5rem 2rem; text-align:center; margin-top:0}
+  .dl canvas{position:absolute; inset:0; width:100%; height:100%; opacity:.55}
+  .dl .in{position:relative; z-index:2}
+  .dl h2{font-size:clamp(1.8rem,3.5vw,2.5rem)}
+  .dl p{margin:.9rem auto 0; max-width:30rem}
+  .dl .cta{margin-top:1.8rem; display:flex; justify-content:center; gap:.8rem; flex-wrap:wrap}
+  .dl .fine{margin-top:1.1rem; font-size:.82rem; color:var(--ink-2)}
+
+  footer{padding-block:3rem; font-size:.88rem}
+  footer .row{display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; align-items:center}
+
+  /* scroll reveal */
+  .rv{opacity:0; transform:translateY(14px); transition:opacity .5s var(--ease), transform .5s var(--ease)}
+  .rv.on{opacity:1; transform:none}
+  @media (prefers-reduced-motion: reduce){ .rv{opacity:1; transform:none; transition:none} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap row">
+    <a class="brand" href="#">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 3 5 5.6v5c0 4.3 2.9 7.4 7 9 4.1-1.6 7-4.7 7-9v-5L12 3Z" stroke="var(--green)" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4.5" stroke="var(--green)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      SafeScreen
+    </a>
+    <nav class="navlinks">
+      <a href="#how">How it works</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#who">Who it's for</a>
+    </nav>
+    <a href="#download" class="btn btn-ink">Get the app</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap inner">
+    <div>
+      <p class="eyebrow" style="margin-bottom:1.1rem">Android · On-device AI · Free</p>
+      <h1>Harmful images, blurred before you see them.</h1>
+      <p class="sub">SafeScreen watches your screen <b>so you don't have to brace yourself</b>. Explicit images are blurred in real time and likely AI-fakes get flagged — in every app, and <b>nothing ever leaves your phone</b>.</p>
+      <div class="cta">
+        <a href="#download" class="btn btn-ink">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download for Android
+        </a>
+        <a href="#how" class="btn btn-quiet">See how it works</a>
       </div>
-
-      <div class="flex justify-center lg:order-1 lg:justify-start">
-        <PhoneMock />
+      <div class="trust">
+        <span><i></i>Your screen is analyzed on your phone — never uploaded anywhere.</span>
+        <span><i></i>Free. Sign up in seconds. No tracking, no ads.</span>
       </div>
     </div>
-  </section>
 
-  <!-- DEMO (placeholder: drop a 15s screen recording here) -->
-  <section class="container-tight mt-16">
-    <div class="mx-auto flex aspect-video max-w-3xl items-center justify-center overflow-hidden rounded-xl border border-line bg-surface">
-      <div class="flex flex-col items-center text-center">
-        <div class="flex h-14 w-14 items-center justify-center rounded-full border border-line">
-          <svg viewBox="0 0 24 24" class="h-6 w-6 text-accent" fill="currentColor" aria-hidden="true">
-            <path d="M9 7.5v9l7-4.5-7-4.5Z" />
-          </svg>
-        </div>
-        <p class="mt-4 text-fg">See it in action</p>
-        <p class="mono mt-1 text-xs text-fg-3">15-SECOND DEMO COMING SOON</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW -->
-  <section class="container-tight mt-24">
-    <p class="eyebrow">How it works</p>
-    <div class="mt-8 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
-      {
-        steps.map((step) => (
-          <div class="flex items-baseline gap-4 bg-surface p-7">
-            <span class="mono text-sm text-accent">{step.n}</span>
-            <p class="text-lg text-fg">{step.body}</p>
+    <!-- LIVE demo phone -->
+    <div class="phonewrap">
+      <div class="phone">
+        <div class="screen">
+          <canvas id="demo"></canvas>
+          <div class="ovcard" id="ovcard">
+            <div class="t">⚠ Protected by SafeScreen</div>
+            <div class="s">Possibly sensitive — blurred</div>
+            <div class="score">NSFW 61% · checked in 18ms</div>
+            <button class="reveal" id="reveal">TAP TO REVEAL</button>
+            <div class="lock">🔒 Analyzed on-device · 0 bytes left your phone</div>
           </div>
-        ))
-      }
+        </div>
+        <div class="demolabel">LIVE DEMO — <b>tap the button</b>, watch the blur lift</div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- USE CASES -->
-  <section class="container-tight mt-24">
-    <p class="eyebrow">Who it's for</p>
-    <div class="mt-8 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
-      {
-        useCases.map((u) => (
-          <div class="flex flex-col bg-surface p-7">
-            <p class="eyebrow">{u.role}</p>
-            <p class="mt-4 leading-relaxed text-fg-3">{u.setup}</p>
-            <p class="mt-2 leading-relaxed text-fg">{u.outcome}</p>
+<!-- ============ HOW ============ -->
+<section class="block" id="how">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow kick">How it works</p>
+      <h2 class="h2">Three steps. No setup maze.</h2>
+      <p class="intro">SafeScreen runs quietly in the background and only steps in when something on screen looks harmful.</p>
+    </div>
+    <div class="steps">
+      <div class="step rv">
+        <div class="viz"><div class="mini"><div class="scr">
+          <div class="appicon"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 3 5 5.6v5c0 4.3 2.9 7.4 7 9 4.1-1.6 7-4.7 7-9v-5L12 3Z" stroke="var(--green)" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4.5" stroke="var(--green)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="installbar"><i></i></div>
+          <span class="cap">INSTALLING…</span>
+        </div></div></div>
+        <div class="num">1</div><h3>Install the app</h3><p>Download SafeScreen from the Play Store and sign in. Under a minute, start to finish.</p>
+      </div>
+      <div class="step rv">
+        <div class="viz"><div class="mini"><div class="scr">
+          <div class="ringpulse"><b></b></div>
+          <div class="tog"><i></i></div>
+          <span class="cap">PROTECTION ON</span>
+        </div></div></div>
+        <div class="num">2</div><h3>Turn it on</h3><p>Flip one switch. That's the whole setup — SafeScreen now quietly watches your screen in every app.</p>
+      </div>
+      <div class="step rv">
+        <div class="viz"><div class="mini"><div class="scr">
+          <div class="blurbg"></div>
+          <div class="minicard">
+            <div class="mt">⚠ Protected</div>
+            <div class="ms">Blurred by SafeScreen</div>
+            <div class="mb">TAP TO REVEAL</div>
           </div>
-        ))
-      }
+        </div></div></div>
+        <div class="num">3</div><h3>SafeScreen is in action</h3><p>Explicit content is blurred before you see it, and likely AI-faked images get a warning badge. Tap to reveal — you decide.</p>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- DIFFERENTIATOR -->
-  <section class="container-tight mt-24">
-    <p class="max-w-3xl text-2xl leading-snug text-fg sm:text-[1.7rem]">
-      Only SafeScreen blocks harmful images in real time, with zero bytes ever leaving your phone.
-    </p>
-  </section>
+<!-- ============ WHY IT MATTERS ============ -->
+<section class="block" id="why">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow kick">Why it matters</p>
+      <h2 class="h2">This isn't a niche problem.</h2>
+      <p class="intro">Independent research, not our numbers:</p>
+    </div>
+    <div class="stats">
+      <div class="stat rv"><div class="v" data-count="73"><em>0</em>%</div><div class="l">of teens have seen porn online</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media</a></div>
+      <div class="stat rv"><div class="v" data-count="58"><em>0</em>%</div><div class="l">stumbled onto it by accident</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media</a></div>
+      <div class="stat rv"><div class="v" data-count="8"><em>0</em>M</div><div class="l">deepfakes online — 16× more than 2023</div><a class="src" href="https://app.stationx.net/articles/deepfake-statistics" target="_blank" rel="noopener">StationX · DeepStrike</a></div>
+      <div class="stat rv"><div class="v" data-count="98"><em>0</em>%</div><div class="l">of deepfake videos are non-consensual</div><a class="src" href="https://app.stationx.net/articles/deepfake-statistics" target="_blank" rel="noopener">Sensity AI</a></div>
+    </div>
+    <p class="center" style="margin-top:1.6rem; font-size:.98rem">Exposure isn't a choice anymore — it finds you. <a href="#download" style="color:var(--green); font-weight:600">SafeScreen puts a filter in the way →</a></p>
+  </div>
+</section>
 
-  <!-- CTA -->
-  <section id="waitlist" class="container-tight mt-24">
-    <div class="card flex flex-col items-start gap-7 p-10 sm:p-14">
+<!-- ============ CONTROL ============ -->
+<section class="block" id="control">
+  <div class="wrap">
+    <div class="proof" style="margin-top:0">
       <div>
-        <h2 class="text-3xl sm:text-4xl">Be first to protect your screen.</h2>
-        <p class="mt-4 text-lg text-fg-2">Launching soon. We'll tell you the moment it's ready.</p>
+        <p class="eyebrow kick">You're in control</p>
+        <h2 class="h2" style="max-width:16ch">Protection at your sensitivity, not ours.</h2>
+        <p class="body" style="margin-top:1.1rem; max-width:32rem">Everyone's comfort level is different. Slide the sensitivity from relaxed to strict — blur earlier or later, block outright at whatever line you choose. <b>Set it once and SafeScreen remembers</b>, across restarts, until you change it.</p>
+        <ul class="clean" style="list-style:none; margin-top:1.3rem; display:grid; gap:.65rem">
+          <li style="display:flex; gap:.7rem; align-items:flex-start"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:.55rem;flex:none"></span><span><b>Blur point</b> — how sure the AI must be before it covers something.</span></li>
+          <li style="display:flex; gap:.7rem; align-items:flex-start"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:.55rem;flex:none"></span><span><b>Block point</b> — the line where reveal gets locked behind an extra step.</span></li>
+          <li style="display:flex; gap:.7rem; align-items:flex-start"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:.55rem;flex:none"></span><span><b>Every reveal is your call</b> — SafeScreen never deletes or reports anything.</span></li>
+        </ul>
       </div>
-      <WaitlistForm />
+      <div style="display:flex; justify-content:center">
+        <div class="mini" style="width:220px; aspect-ratio:9/11; box-shadow:0 22px 44px -26px rgba(17,17,17,.3)">
+          <div class="scr" style="justify-content:flex-start; align-items:stretch; gap:0; padding:1rem .9rem">
+            <div style="font-weight:600; color:var(--ink); font-size:.8rem">Detection sensitivity</div>
+            <div style="display:flex; gap:.35rem; margin-top:.7rem">
+              <span style="font-family:var(--mono); font-size:.55rem; padding:.22rem .5rem; border-radius:99px; border:1px solid var(--hairline); color:var(--ink-2)">Relaxed</span>
+              <span style="font-family:var(--mono); font-size:.55rem; padding:.22rem .5rem; border-radius:99px; background:var(--green); color:#fff">Standard</span>
+              <span style="font-family:var(--mono); font-size:.55rem; padding:.22rem .5rem; border-radius:99px; border:1px solid var(--hairline); color:var(--ink-2)">Strict</span>
+            </div>
+            <div style="margin-top:1.1rem; font-size:.62rem; color:var(--ink-2); display:flex; justify-content:space-between"><span>Blur at</span><span class="mono" style="color:var(--green)">60%</span></div>
+            <div style="margin-top:.35rem; height:5px; border-radius:99px; background:var(--hairline); position:relative"><i style="position:absolute;left:0;top:0;bottom:0;width:60%;background:var(--green);border-radius:99px"></i><i style="position:absolute;left:calc(60% - 7px);top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--green)"></i></div>
+            <div style="margin-top:1rem; font-size:.62rem; color:var(--ink-2); display:flex; justify-content:space-between"><span>Block at</span><span class="mono" style="color:var(--green)">85%</span></div>
+            <div style="margin-top:.35rem; height:5px; border-radius:99px; background:var(--hairline); position:relative"><i style="position:absolute;left:0;top:0;bottom:0;width:85%;background:var(--green);border-radius:99px"></i><i style="position:absolute;left:calc(85% - 7px);top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--green)"></i></div>
+            <div style="margin-top:auto; padding-top:1rem; font-family:var(--mono); font-size:.5rem; letter-spacing:.06em; color:var(--ink-2); text-align:center">SAVED — REMEMBERED ACROSS RESTARTS</div>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
-</Layout>
+  </div>
+</section>
+
+<!-- ============ PRIVACY ============ -->
+<section class="block" id="privacy">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow kick">Privacy</p>
+      <h2 class="h2">Private because it can't be otherwise.</h2>
+      <p class="intro">Most "safety" apps upload your screen to a server to check it. SafeScreen checks everything on your phone — so your screen never has to leave it.</p>
+    </div>
+    <div class="proof">
+      <div class="prooflist">
+        <div class="item rv">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3 5 5.6v5c0 4.3 2.9 7.4 7 9 4.1-1.6 7-4.7 7-9v-5L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><h3>Your screen is never uploaded</h3><p>The AI that checks your screen runs entirely on your phone's own chip. Each frame is analyzed on the spot and immediately discarded — no screenshots stored, nothing sent to a server.</p></div>
+        </div>
+        <div class="item rv">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div><h3>Your account holds the minimum</h3><p>Signing up takes an email — that's it. What appears on your screen is never tied to your account, tracked, or sold. There's simply no feed of your activity to leak.</p></div>
+        </div>
+        <div class="item rv">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M1 1l22 22M9 9a3 3 0 0 0 4.2 4.2M5.6 5.6C3.4 7 1.8 9 1 12c1.7 4.4 6 7.5 11 7.5 2 0 3.8-.5 5.4-1.3M10 4.6c.6-.1 1.3-.1 2-.1 5 0 9.3 3.1 11 7.5-.5 1.4-1.3 2.7-2.3 3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><h3>No tracking, no ads</h3><p>No analytics profile, no browsing history, no ad targeting. SafeScreen's only job is deciding blur-or-don't — and that decision never leaves the device.</p></div>
+        </div>
+      </div>
+      <div class="airplane rv">
+        <div class="big">🛡️</div>
+        <h3>Protected in the next 60 seconds</h3>
+        <p>Right now, someone you love is one scroll away from content they can't un-see. The fix is three taps:</p>
+        <div style="margin-top:1.1rem; display:grid; gap:.5rem; text-align:left; max-width:15.5rem; margin-inline:auto; font-size:.93rem">
+          <span style="display:flex;gap:.6rem;align-items:center"><b style="font-family:var(--mono);color:var(--green);font-size:.8rem">1</b> Install SafeScreen</span>
+          <span style="display:flex;gap:.6rem;align-items:center"><b style="font-family:var(--mono);color:var(--green);font-size:.8rem">2</b> Sign in with your email</span>
+          <span style="display:flex;gap:.6rem;align-items:center"><b style="font-family:var(--mono);color:var(--green);font-size:.8rem">3</b> Flip protection on</span>
+        </div>
+        <a href="#download" class="btn btn-ink" style="margin-top:1.4rem">Get SafeScreen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO ============ -->
+<section class="block" id="who">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow kick">Who it's for</p>
+      <h2 class="h2">Built for the moments you can't un-see.</h2>
+    </div>
+    <div class="who">
+      <div class="whocell rv">
+        <p class="eyebrow">Parents</p>
+        <p class="q">Your kid opens any app, and explicit content appears out of nowhere.</p>
+        <p class="a">Blurred before they see it — with zero per-app setup.</p>
+      </div>
+      <div class="whocell rv">
+        <p class="eyebrow">Anyone targeted</p>
+        <p class="q">A deepfake or a leaked photo lands in a group chat.</p>
+        <p class="a">Flagged on your device before it catches you off guard.</p>
+      </div>
+      <div class="whocell rv">
+        <p class="eyebrow">Privacy-first people</p>
+        <p class="q">You don't trust apps that upload your screen "for safety."</p>
+        <p class="a">Your screen is analyzed on-device and never uploaded.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOWNLOAD ============ -->
+<section class="block" id="download" style="border-bottom:0">
+  <div class="wrap">
+    <div class="dl">
+      <canvas id="aurabg"></canvas>
+      <div class="in">
+        <p class="eyebrow" style="margin-bottom:.9rem">Get SafeScreen</p>
+        <h2>Put a shield on your screen.</h2>
+        <p>Free on Android. Installs in under a minute — sign in, flip one switch, and you're protected. iOS is on the way.</p>
+        <div class="cta">
+          <a href="#" class="btn btn-ink">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Download for Android
+          </a>
+          <a href="#" class="btn btn-quiet">Join the iOS waitlist</a>
+        </div>
+        <p class="fine">Works on modern Android phones — uses your phone's AI chip for instant checks where available, and falls back to the regular processor automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap row">
+    <span class="brand" style="font-size:.95rem">
+      <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M12 3 5 5.6v5c0 4.3 2.9 7.4 7 9 4.1-1.6 7-4.7 7-9v-5L12 3Z" stroke="var(--green)" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4.5" stroke="var(--green)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      SafeScreen
+    </span>
+    <span>Private by design. · <a href="mailto:info@mysafescreen.com" style="color:var(--green)">info@mysafescreen.com</a></span>
+  </div>
+</footer>
+
+<script is:inline>
+/* ============ tiny WebGL runtime (no libraries) ============ */
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function glc(canvas, frag){
+  const gl=canvas.getContext('webgl',{antialias:false,powerPreference:'low-power'})||canvas.getContext('experimental-webgl');
+  if(!gl) return null;
+  const mk=(t,s)=>{const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);return x;};
+  const p=gl.createProgram();
+  gl.attachShader(p,mk(gl.VERTEX_SHADER,'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}'));
+  gl.attachShader(p,mk(gl.FRAGMENT_SHADER,frag));
+  gl.linkProgram(p);gl.useProgram(p);
+  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const a=gl.getAttribLocation(p,'a');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
+  const U=n=>gl.getUniformLocation(p,n);
+  const size=()=>{const d=Math.min(devicePixelRatio||1,1.5);
+    canvas.width=Math.max(1,(canvas.clientWidth||300)*d|0);canvas.height=Math.max(1,(canvas.clientHeight||300)*d|0);
+    gl.viewport(0,0,canvas.width,canvas.height);};
+  size();addEventListener('resize',size);
+  return {gl,U:{res:U('u_res'),time:U('u_time'),a:U('u_a')}};
+}
+const NOISE=`float hash(vec2 p){p=fract(p*vec2(123.34,345.45));p+=dot(p,p+34.345);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);float a=hash(i),b=hash(i+vec2(1.,0.)),c=hash(i+vec2(0.,1.)),d=hash(i+vec2(1.,1.));
+vec2 u=f*f*(3.-2.*f);return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p*=2.02;a*=.5;}return v;}`;
+
+/* --- hero demo: procedural photo + frosted protect layer, defrost on tap --- */
+const DEMO=`precision highp float;uniform vec2 u_res;uniform float u_time;uniform float u_a;${NOISE}
+vec3 content(vec2 uv,float lod){
+ float n1=fbm(uv*(2.0+lod*3.0)+vec2(0.0,u_time*0.03));
+ float n2=fbm(uv*(3.5+lod*4.0)-vec2(u_time*0.02,0.0));
+ vec3 warm=vec3(0.85,0.62,0.45),cool=vec3(0.35,0.45,0.62),lit=vec3(0.95,0.9,0.8);
+ vec3 c=mix(cool,warm,smoothstep(0.3,0.7,n1));return mix(c,lit,smoothstep(0.55,0.9,n2)*0.7);}
+void main(){vec2 uv=gl_FragCoord.xy/u_res;
+ float d=distance(uv,vec2(0.5,0.45));
+ float reveal=smoothstep(0.05,0.0,d-u_a*1.4);
+ vec3 sharp=content(uv,1.0), blur=content(uv,0.0);
+ float frost=noise(gl_FragCoord.xy*0.5+u_time*2.0)*0.06;
+ vec3 frosted=mix(blur,vec3(0.92,0.94,0.95),0.35)+frost;
+ frosted=mix(frosted,vec3(0.86,0.9,0.88),0.12);
+ vec3 col=mix(frosted,sharp,reveal);
+ float sc=fract(u_time*0.45); if(sc<0.5&&u_a<0.5){float y=sc*2.0;col+=vec3(0.086,0.478,0.29)*smoothstep(0.02,0.0,abs(uv.y-y))*0.45;}
+ col*=smoothstep(1.2,0.35,length(uv-0.5))*0.14+0.86;
+ gl_FragColor=vec4(col,1.0);}`;
+
+/* --- download CTA: faint ambient shield aura on cream --- */
+const AURA=`precision highp float;uniform vec2 u_res;uniform float u_time;${NOISE}
+void main(){vec2 uv=(gl_FragCoord.xy-0.5*u_res)/u_res.y;float r=length(uv);float t=u_time;
+ float rings=0.5+0.5*sin(r*40.0-t*1.1);
+ float aura=fbm(uv*2.6+vec2(0.0,-t*0.12));
+ float ping=smoothstep(0.02,0.0,abs(r-fract(t*0.22)*0.7));
+ vec3 col=vec3(1.0);
+ vec3 g=vec3(0.086,0.478,0.29);
+ float fall=smoothstep(1.0,0.05,r);
+ col=mix(col,g,(rings*0.05+aura*0.07+ping*0.22)*fall);
+ gl_FragColor=vec4(col,1.0);}`;
+
+(function(){const cv=document.getElementById('demo');const R=glc(cv,DEMO);
+ if(!R){cv.style.background='linear-gradient(140deg,#c9b6a3,#8a97ab)';return;}
+ let a=0,target=0;
+ const card=document.getElementById('ovcard'),btn=document.getElementById('reveal');
+ btn.addEventListener('click',()=>{target=target>0.5?0:1;
+   btn.textContent=target>0.5?'TAP TO HIDE':'TAP TO REVEAL';
+   card.style.opacity=target>0.5?'0':'1'; card.style.pointerEvents='auto';});
+ // auto-demo loop: reveal briefly every ~9s if user hasn't interacted
+ let touched=false; btn.addEventListener('click',()=>touched=true);
+ setInterval(()=>{if(!touched&&!reduced){target=1;card.style.opacity='0';
+   setTimeout(()=>{if(!touched){target=0;card.style.opacity='1';}},2600);}},9000);
+ let s=null;(function f(ts){if(s==null)s=ts;const t=reduced?3:(ts-s)/1000;a+=(target-a)*0.06;
+   R.gl.uniform2f(R.U.res,cv.width,cv.height);R.gl.uniform1f(R.U.time,t);R.gl.uniform1f(R.U.a,a);
+   R.gl.drawArrays(R.gl.TRIANGLES,0,3);if(!reduced)requestAnimationFrame(f);})(performance.now());})();
+
+(function(){const cv=document.getElementById('aurabg');const R=glc(cv,AURA);
+ if(!R){cv.style.background='radial-gradient(circle at 50% 40%, #EEF7F1, #fff)';return;}
+ let s=null;(function f(ts){if(s==null)s=ts;const t=reduced?4:(ts-s)/1000;
+   R.gl.uniform2f(R.U.res,cv.width,cv.height);R.gl.uniform1f(R.U.time,t);
+   R.gl.drawArrays(R.gl.TRIANGLES,0,3);if(!reduced)requestAnimationFrame(f);})(performance.now());})();
+
+/* --- scroll reveal + counters --- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+const cio=new IntersectionObserver(es=>es.forEach(e=>{
+ if(!e.isIntersecting)return; cio.unobserve(e.target);
+ const el=e.target, n=+el.dataset.count, em=el.querySelector('em');
+ if(reduced){em.textContent=n;return;}
+ const t0=performance.now();
+ (function step(t){const p=Math.min(1,(t-t0)/900);em.textContent=Math.round(n*(1-Math.pow(1-p,3)));
+  if(p<1)requestAnimationFrame(step);})(t0);
+}),{threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+</script>
+</body>
+</html>
