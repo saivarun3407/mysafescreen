@@ -77,45 +77,103 @@
   .kick{margin-bottom:1rem}
   p.intro{max-width:38rem; margin:1rem auto 0; font-size:1.08rem}
 
-  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hairline); border:1px solid var(--hairline); border-radius:18px; overflow:hidden; margin-top:2.6rem}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-top:2.6rem}
   @media(max-width:760px){.steps{grid-template-columns:1fr}}
-  .step{background:var(--surface); padding:2rem 1.7rem}
-  .step .num{width:36px;height:36px;border-radius:50%;background:var(--green-tint); color:var(--green); display:flex;align-items:center;justify-content:center; font-family:var(--mono); font-size:.85rem; font-weight:500; margin-bottom:1rem}
+  /* each step is its own card; dimmed until the sequence spotlights it, then zooms in */
+  .step{background:var(--surface); padding:2rem 1.7rem; border:1px solid var(--hairline); border-radius:18px;
+    opacity:.5; transform:scale(.955);
+    transition:transform .6s var(--ease), opacity .6s var(--ease), box-shadow .6s var(--ease), border-color .6s var(--ease)}
+  .step.active{opacity:1; transform:scale(1.035); box-shadow:0 26px 52px -28px rgba(17,17,17,.38);
+    border-color:color-mix(in oklab,var(--green) 38%, var(--hairline)); position:relative; z-index:2}
+  .step .num{width:36px;height:36px;border-radius:50%;background:var(--green-tint); color:var(--green); display:flex;align-items:center;justify-content:center; font-family:var(--mono); font-size:.85rem; font-weight:500; margin-bottom:1rem; transition:background .5s var(--ease), color .5s var(--ease)}
+  .step.active .num{background:var(--green); color:#fff}
   .step h3{font-size:1.12rem; margin-bottom:.45rem}
   .step p{font-size:.97rem}
 
-  /* mini phone visuals inside steps */
+  /* ===== mini phone visuals inside steps — continuously looping demos ===== */
   .viz{display:flex; justify-content:center; margin-bottom:1.4rem}
-  .mini{width:118px; aspect-ratio:9/17; border-radius:1.1rem; border:1px solid var(--hairline); background:var(--bg); padding:.28rem; box-shadow:0 10px 24px -16px rgba(17,17,17,.25)}
-  .mini .scr{position:relative; width:100%; height:100%; border-radius:.85rem; overflow:hidden; background:var(--surface); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem}
-  /* step 1: install */
-  .appicon{width:40px;height:40px;border-radius:12px;background:var(--green-tint);display:flex;align-items:center;justify-content:center}
-  .installbar{width:64%;height:5px;border-radius:99px;background:var(--hairline);overflow:hidden}
-  .installbar i{display:block;height:100%;width:0;background:var(--green);border-radius:99px}
-  .on .installbar i{animation:fill 1.4s var(--ease) .2s forwards}
-  @keyframes fill{to{width:100%}}
+  .mini{width:140px; aspect-ratio:9/17; border-radius:1.3rem; border:1px solid var(--hairline); background:var(--bg); padding:.32rem; box-shadow:0 14px 28px -16px rgba(17,17,17,.28)}
+  .mini .scr{position:relative; width:100%; height:100%; border-radius:1rem; overflow:hidden; background:var(--surface); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.55rem}
   .mini .cap{font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;color:var(--ink-2)}
-  /* step 2: toggle */
-  .tog{width:56px;height:30px;border-radius:99px;background:var(--hairline);position:relative;transition:background .4s var(--ease)}
-  .tog i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .4s var(--ease)}
-  .on .tog{background:var(--green)} .on .tog i{left:29px}
+
+  /* simulated fingertip — reads as a tap on any background */
+  .finger{position:absolute; z-index:6; width:24px; height:24px; border-radius:50%;
+    background:rgba(17,17,17,.12); border:1.5px solid rgba(17,17,17,.34);
+    box-shadow:0 2px 6px rgba(0,0,0,.18); pointer-events:none; opacity:0}
+
+  /* ---- STEP 1: install cycle (GET → Installing → Open) ---- */
+  .appicon{width:44px;height:44px;border-radius:13px;background:var(--green-tint);display:flex;align-items:center;justify-content:center}
+  .s1name{font-size:.62rem;font-weight:600;color:var(--ink)}
+  .s1pill{position:relative;width:70%;height:23px;border-radius:99px;overflow:hidden;background:var(--green)}
+  .s1pill .prog{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(255,255,255,.30)}
+  .s1pill .lbl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;color:#fff;font-weight:600}
+  .s1pill .l-inst,.s1pill .l-open{opacity:0}
+  .s1finger{left:50%;top:63%;margin:-12px 0 0 -12px}
+  .step.active .s1pill .prog{animation:s1prog 3.4s var(--ease) forwards}
+  .step.active .s1pill .l-get{animation:s1get 3.4s step-end forwards}
+  .step.active .s1pill .l-inst{animation:s1inst 3.4s step-end forwards}
+  .step.active .s1pill .l-open{animation:s1open 3.4s step-end forwards}
+  .step.active .s1finger{animation:s1finger 3.4s var(--ease) forwards}
+  @keyframes s1prog{0%,15%{width:0}70%{width:100%}100%{width:100%}}
+  @keyframes s1get{0%,14%{opacity:1}15%,100%{opacity:0}}
+  @keyframes s1inst{0%,15%{opacity:0}17%,71%{opacity:1}72%,100%{opacity:0}}
+  @keyframes s1open{0%,72%{opacity:0}75%,100%{opacity:1}}
+  @keyframes s1finger{0%{opacity:0;transform:translate(15px,17px) scale(1)}6%{opacity:1;transform:translate(0,3px) scale(1)}11%{opacity:1;transform:translate(0,3px) scale(.8)}15%{opacity:1;transform:translate(0,0) scale(1)}24%,100%{opacity:0}}
+
+  /* ---- STEP 2: turn-on cycle (finger flips switch → shield pulses) ---- */
+  .tog{width:54px;height:29px;border-radius:99px;background:var(--hairline);position:relative}
+  .tog i{position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+  .step.active .tog{animation:s2tog 3.2s var(--ease) forwards}
+  .step.active .tog i{animation:s2knob 3.2s var(--ease) forwards}
+  @keyframes s2tog{0%,40%{background:#E8E5DD}50%,100%{background:#167A4A}}
+  @keyframes s2knob{0%,40%{left:3px}50%,100%{left:28px}}
   .ringpulse{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none}
-  .ringpulse b{width:70px;height:70px;border-radius:50%;border:1.5px solid var(--green);opacity:0}
-  .on .ringpulse b{animation:pulse 2.2s var(--ease) .5s infinite}
-  @keyframes pulse{0%{transform:scale(.6);opacity:.5}100%{transform:scale(1.5);opacity:0}}
-  @media (prefers-reduced-motion:reduce){.on .ringpulse b{animation:none;opacity:.25;transform:scale(1.1)}
-    .on .installbar i{animation:none;width:100%}}
-  /* step 3: in action */
+  .ringpulse b{position:absolute;width:54px;height:54px;border-radius:50%;border:1.5px solid var(--green);opacity:0}
+  .step.active .ringpulse b{animation:s2ring 3.2s var(--ease) forwards}
+  @keyframes s2ring{0%,45%{opacity:0;transform:scale(.4)}58%{opacity:.5;transform:scale(1)}82%{opacity:0;transform:scale(1.8)}100%{opacity:0}}
+  .s2stat{position:relative;height:14px;width:100%;display:flex;align-items:center;justify-content:center}
+  .s2stat span{position:absolute;font-family:var(--mono);font-size:.52rem;letter-spacing:.05em}
+  .s2off{color:var(--ink-2)} .s2on{color:var(--green);font-weight:600;opacity:0}
+  .step.active .s2off{animation:s2offk 3.2s step-end forwards}
+  .step.active .s2on{animation:s2onk 3.2s step-end forwards}
+  @keyframes s2offk{0%,42%{opacity:1}43%,100%{opacity:0}}
+  @keyframes s2onk{0%,43%{opacity:0}50%,100%{opacity:1}}
+  .s2finger{left:57%;top:43%;margin:-12px 0 0 -12px}
+  .step.active .s2finger{animation:s2finger 3.2s var(--ease) forwards}
+  @keyframes s2finger{0%{opacity:0;transform:translate(17px,19px) scale(1)}25%{opacity:1;transform:translate(0,3px) scale(1)}38%{opacity:1;transform:translate(0,3px) scale(.8)}47%{opacity:1;transform:translate(0,0) scale(1)}62%,100%{opacity:0}}
+
+  /* ---- STEP 3: in action (content → scan → blur lands + card) ---- */
   .blurbg{position:absolute; inset:0;
     background:
       radial-gradient(60% 40% at 30% 25%, #d9a06b 0%, transparent 70%),
       radial-gradient(70% 50% at 75% 60%, #7d8fb3 0%, transparent 70%),
       radial-gradient(80% 60% at 40% 85%, #c9b6a3 0%, transparent 70%), #b9a894;
     filter:blur(9px) saturate(.9)}
-  .minicard{position:relative; z-index:2; width:84%; background:rgba(14,16,15,.87); border-radius:.6rem; padding:.5rem .4rem; text-align:center; color:#fff}
+  .step.active .blurbg{animation:s3blur 4s var(--ease) forwards}
+  @keyframes s3blur{0%,25%{filter:blur(1px) saturate(1)}48%,100%{filter:blur(9px) saturate(.9)}}
+  .s3scan{position:absolute;left:0;right:0;top:0;height:2px;z-index:3;opacity:0;
+    background:linear-gradient(90deg,transparent,#167A4A,transparent)}
+  .step.active .s3scan{animation:s3scan 4s var(--ease) forwards}
+  @keyframes s3scan{0%,22%{opacity:0;top:0}28%{opacity:1}44%{top:100%}50%,100%{opacity:0}}
+  .minicard{position:relative; z-index:4; width:84%; background:rgba(14,16,15,.87); border-radius:.6rem; padding:.5rem .4rem; text-align:center; color:#fff; opacity:0}
+  .step.active .minicard{animation:s3card 4s var(--ease) forwards}
+  @keyframes s3card{0%,46%{opacity:0;transform:translateY(6px)}58%,100%{opacity:1;transform:none}}
   .minicard .mt{font-size:.5rem; font-weight:600}
   .minicard .ms{font-family:var(--mono); font-size:.42rem; color:#7fe0ab; margin-top:.15rem}
   .minicard .mb{margin-top:.3rem; background:#fff; color:#111; border-radius:99px; font-family:var(--mono); font-size:.4rem; letter-spacing:.05em; padding:.24rem 0; font-weight:600}
+
+  @media (prefers-reduced-motion:reduce){
+    .step{opacity:1 !important; transform:none !important; box-shadow:none !important}
+    .step *{animation:none !important}
+    .s1pill .prog{width:100%} .s1pill .l-get,.s1pill .l-inst{opacity:0} .s1pill .l-open{opacity:1}
+    .finger{display:none}
+    .tog{background:#167A4A} .tog i{left:28px}
+    .ringpulse b{opacity:0}
+    .s2off{opacity:0} .s2on{opacity:1}
+    .blurbg{filter:blur(9px) saturate(.9)}
+    .s3scan{opacity:0}
+    .minicard{opacity:1}
+  }
 
   /* problem stats: source links */
   .stat a.src{display:inline-block; margin-top:.45rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.04em; color:var(--ink-2); border-bottom:1px solid var(--hairline); transition:color .15s var(--ease), border-color .15s var(--ease)}
@@ -233,26 +291,34 @@
       <h2 class="h2">Three steps. No setup maze.</h2>
       <p class="intro">SafeScreen runs quietly in the background and only steps in when something on screen looks harmful.</p>
     </div>
-    <div class="steps">
-      <div class="step rv">
+    <div class="steps" id="howsteps">
+      <div class="step">
         <div class="viz"><div class="mini"><div class="scr">
-          <div class="appicon"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 3 5 5.6v5c0 4.3 2.9 7.4 7 9 4.1-1.6 7-4.7 7-9v-5L12 3Z" stroke="var(--green)" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4.5" stroke="var(--green)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="installbar"><i></i></div>
-          <span class="cap">INSTALLING…</span>
+          <div class="appicon"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 3 5 5.6v5c0 4.3 2.9 7.4 7 9 4.1-1.6 7-4.7 7-9v-5L12 3Z" stroke="var(--green)" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4.5" stroke="var(--green)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="s1name">SafeScreen</div>
+          <div class="s1pill">
+            <span class="prog"></span>
+            <span class="lbl l-get">GET</span>
+            <span class="lbl l-inst">INSTALLING…</span>
+            <span class="lbl l-open">OPEN</span>
+          </div>
+          <div class="finger s1finger"></div>
         </div></div></div>
-        <div class="num">1</div><h3>Install the app</h3><p>Download SafeScreen from the Play Store and sign in. Under a minute, start to finish.</p>
+        <div class="num">1</div><h3 class="viz-h">Install the app</h3><p>Download SafeScreen from the Play Store and sign in. Under a minute, start to finish.</p>
       </div>
-      <div class="step rv">
+      <div class="step">
         <div class="viz"><div class="mini"><div class="scr">
-          <div class="ringpulse"><b></b></div>
+          <div class="ringpulse"><b></b><b style="animation-delay:.3s"></b></div>
           <div class="tog"><i></i></div>
-          <span class="cap">PROTECTION ON</span>
+          <div class="s2stat"><span class="s2off">Protection off</span><span class="s2on">Protection on</span></div>
+          <div class="finger s2finger"></div>
         </div></div></div>
-        <div class="num">2</div><h3>Turn it on</h3><p>Flip one switch. That's the whole setup — SafeScreen now quietly watches your screen in every app.</p>
+        <div class="num">2</div><h3>Turn it on</h3><p>Tap one switch. That's the whole setup — SafeScreen now quietly watches your screen in every app.</p>
       </div>
-      <div class="step rv">
+      <div class="step">
         <div class="viz"><div class="mini"><div class="scr">
           <div class="blurbg"></div>
+          <div class="s3scan"></div>
           <div class="minicard">
             <div class="mt">⚠ Protected</div>
             <div class="ms">Blurred by SafeScreen</div>
@@ -505,6 +571,22 @@ const cio=new IntersectionObserver(es=>es.forEach(e=>{
   if(p<1)requestAnimationFrame(step);})(t0);
 }),{threshold:.6});
 document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+/* --- "How it works" sequencer: spotlight one card at a time, in order --- */
+(function(){
+  const wrap = document.getElementById('howsteps');
+  if(!wrap) return;
+  const steps = [...wrap.querySelectorAll('.step')];
+  if(reduced){ steps.forEach(s=>s.classList.add('active')); return; }
+  const DUR = [4000, 3800, 4400];   // ms each card stays zoomed-in (matches its inner demo)
+  let idx = 0, timer = null;
+  const activate = i => steps.forEach((s,k)=>s.classList.toggle('active', k===i));
+  const tick = () => { activate(idx); const d = DUR[idx]; idx = (idx+1) % steps.length; timer = setTimeout(tick, d); };
+  const start = () => { if(!timer){ idx = 0; tick(); } };
+  const stop  = () => { clearTimeout(timer); timer = null; };
+  activate(0);
+  new IntersectionObserver(es => es.forEach(e => { e.isIntersecting ? start() : stop(); }), {threshold:0.4}).observe(wrap);
+})();
 </script>
 </body>
 </html>
