@@ -3,33 +3,33 @@ import Layout from '../layouts/Layout.astro';
 import WaitlistForm from '../components/WaitlistForm.astro';
 
 const guarantees = [
-  { title: 'No internet permission', body: 'The app requests no network access at all. An app that cannot reach the internet cannot leak your screen. You can verify it in your phone’s settings.' },
-  { title: 'It works in airplane mode', body: 'Turn off every radio and SafeScreen keeps protecting you. That’s the proof nothing it does depends on a server.' },
-  { title: 'No accounts, ever', body: 'Nothing to sign up for. No email, no profile, no login. There’s no account database to breach because there are no accounts.' },
-  { title: 'No tracking or analytics', body: 'No usage data, no telemetry, no crash pings tied to you. What happens on your phone stays on your phone.' },
+  { title: 'Your screen is never uploaded', body: 'The AI that checks your screen runs entirely on your phone. Each frame is analyzed on the spot and immediately discarded. No screenshots stored, nothing sent to a server.' },
+  { title: 'Detection works in airplane mode', body: 'Turn off every radio and SafeScreen keeps protecting you. That’s the proof the safety check doesn’t depend on a server.' },
+  { title: 'Your account holds the minimum', body: 'Signing up takes an email, that’s it. What appears on your screen is never tied to your account. There’s simply no feed of your activity to leak.' },
+  { title: 'No tracking or ads', body: 'No analytics profile, no browsing history, no ad targeting. What happens on your phone stays on your phone.' },
 ];
 
 const compare = [
   { dim: 'Where images are judged', cloud: 'Uploaded to a server', safe: 'On your device' },
   { dim: 'What detection requires', cloud: 'Receiving your images', safe: 'Never receiving them' },
-  { dim: 'Works offline', cloud: 'No', safe: 'Yes' },
-  { dim: 'Account required', cloud: 'Usually', safe: 'Never' },
+  { dim: 'Detection works offline', cloud: 'No', safe: 'Yes' },
+  { dim: 'Account holds', cloud: 'Activity & images', safe: 'An email, nothing else' },
   { dim: 'Data that can leak', cloud: 'Whatever was uploaded', safe: 'Nothing leaves' },
 ];
 
 const never = [
   'Upload your screen or images',
-  'Create an account or profile of you',
+  'Build a profile of what you look at',
   'Track what you look at',
   'Report you to anyone',
   'Delete or alter your content',
-  'Need a network connection to work',
+  'Need a network connection to protect you',
 ];
 ---
 
 <Layout
   title="Privacy and security | nothing leaves your device"
-  description="SafeScreen ships with no internet permission, works in airplane mode, and requires no account. The AI runs entirely on your phone."
+  description="SafeScreen analyzes your screen entirely on your phone. Detection works in airplane mode, your account holds only an email, and your screen is never uploaded."
 >
   <section class="container-tight pt-20 pb-4 sm:pt-28">
     <p class="eyebrow">Privacy &amp; security</p>
@@ -37,8 +37,8 @@ const never = [
       Your screen never leaves your phone.
     </h1>
     <p class="mt-6 max-w-2xl text-lg leading-relaxed text-fg-2">
-      Most "safe" apps ask you to trust a privacy policy. SafeScreen removes the need for trust entirely:
-      it's built so that sending your data away is not even possible.
+      Most "safe" apps ask you to trust a privacy policy. SafeScreen is built differently: the safety
+      check runs on your phone, so your screen never has to be sent anywhere to be protected.
     </p>
   </section>
 
@@ -63,7 +63,7 @@ const never = [
       <h2 class="mt-5 text-3xl sm:text-4xl">To judge your most private images, a cloud must first receive them.</h2>
       <p class="mt-6 text-lg leading-relaxed text-fg-2">
         That's the contradiction at the heart of cloud-based safety. The only way for a server to check
-        whether an image is explicit, or a deepfake of you, is to take a copy of it. The protection
+        whether an image is harmful or explicit is to take a copy of it. The protection
         becomes the exposure. SafeScreen resolves it by never moving the image at all.
       </p>
     </div>

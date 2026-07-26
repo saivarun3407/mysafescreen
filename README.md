@@ -1,7 +1,7 @@
 # SafeScreen — marketing site (mysafescreen.com)
 
 The marketing + waitlist site for **SafeScreen**, an on-device visual safety layer for your phone that
-blurs explicit and AI-faked imagery in real time — with nothing ever leaving your device.
+blurs harmful and explicit imagery in real time — with nothing ever leaving your device.
 
 Built with **Astro 5 + Tailwind CSS 4**, deployed to **Cloudflare Pages**.
 

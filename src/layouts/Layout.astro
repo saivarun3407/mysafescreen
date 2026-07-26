@@ -12,7 +12,7 @@ interface Props {
 
 const {
   title = 'SafeScreen | Harmful content, blurred before you see it',
-  description = 'SafeScreen is an on-device safety layer for your phone. It blurs explicit and AI-faked imagery in real time, in any app, and nothing ever leaves your device.',
+  description = 'SafeScreen is an on-device safety layer for your phone. It blurs harmful and explicit imagery in real time, in any app, and nothing ever leaves your device.',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -29,7 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#FAFAF7" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SafeScreen" />
