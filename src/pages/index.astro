@@ -35,7 +35,7 @@
   .btn-quiet:hover{border-color:var(--green); color:var(--green)}
 
   /* nav */
-  header.top{position:sticky; top:0; z-index:50; border-bottom:1px solid var(--hairline); background:color-mix(in oklab,var(--bg) 86%,transparent); backdrop-filter:blur(12px)}
+  header.top{position:sticky; top:0; z-index:50; border-bottom:1px solid var(--hairline); background:var(--bg)}
   header.top .row{display:flex; height:64px; align-items:center; justify-content:space-between; gap:1rem}
   .brand{display:flex; align-items:center; gap:.55rem; font-weight:700; color:var(--ink); font-size:1.05rem}
   .navlinks{display:flex; gap:1.8rem; font-size:.95rem; color:var(--ink-2)}
@@ -337,10 +337,10 @@
       <p class="intro">Independent research, not our numbers:</p>
     </div>
     <div class="stats">
-      <div class="stat rv"><div class="v" data-count="73"><em>0</em>%</div><div class="l">of teens have seen porn online</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media</a></div>
-      <div class="stat rv"><div class="v" data-count="58"><em>0</em>%</div><div class="l">stumbled onto it by accident</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media</a></div>
-      <div class="stat rv"><div class="v" data-count="12"><em>0</em></div><div class="l">average age of first exposure</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media</a></div>
-      <div class="stat rv"><div class="v" data-count="15"><em>0</em>%</div><div class="l">first saw it at age 10 or younger</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media</a></div>
+      <div class="stat rv"><div class="v" data-count="73"><em>73</em>%</div><div class="l">of teens have seen porn online</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+      <div class="stat rv"><div class="v" data-count="58"><em>58</em>%</div><div class="l">stumbled onto it by accident</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+      <div class="stat rv"><div class="v" data-count="12"><em>12</em></div><div class="l">average age of first exposure</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+      <div class="stat rv"><div class="v" data-count="15"><em>15</em>%</div><div class="l">first saw it at age 10 or younger</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
     </div>
     <p class="center" style="margin-top:1.6rem; font-size:.98rem">Exposure isn't a choice anymore. It finds you. <a href="#download" style="color:var(--green); font-weight:600">SafeScreen puts a filter in the way</a></p>
   </div>
@@ -358,6 +358,7 @@
           <li style="display:flex; gap:.7rem; align-items:flex-start"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:.55rem;flex:none"></span><span><b>Blur point:</b> how sure the AI must be before it covers something.</span></li>
           <li style="display:flex; gap:.7rem; align-items:flex-start"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:.55rem;flex:none"></span><span><b>Block point:</b> the line where reveal gets locked behind an extra step.</span></li>
           <li style="display:flex; gap:.7rem; align-items:flex-start"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:.55rem;flex:none"></span><span><b>Every reveal is your call.</b> SafeScreen never deletes or reports anything.</span></li>
+          <li style="display:flex; gap:.7rem; align-items:flex-start"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:.55rem;flex:none"></span><span><b>It won't be perfect.</b> Sometimes it will blur something innocent, or miss something it shouldn't. Every blur is one tap from reversal, and the sensitivity is yours to tune.</span></li>
         </ul>
       </div>
       <div style="display:flex; justify-content:center">
@@ -572,7 +573,7 @@ document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
      const res=await fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
      if(!res.ok)throw new Error(String(res.status));
      form.reset();msg.textContent="You're on the list. We'll email you at launch.";
-   }catch{form.reset();msg.textContent="You're on the list. We'll be in touch at launch.";}
+   }catch{msg.textContent="Something went wrong on our end. Please try again.";}
    finally{btn.disabled=false;btn.style.opacity='1';}
  });
 })();

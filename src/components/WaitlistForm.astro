@@ -56,8 +56,7 @@
         form.reset();
         set("You're on the list. We'll email you at launch.", 'ok');
       } catch {
-        form.reset();
-        set("You're on the list. We'll be in touch at launch.", 'ok');
+        set('Something went wrong on our end. Please try again.', 'warn');
       } finally {
         btn.disabled = false;
         btn.style.opacity = '1';
