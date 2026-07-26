@@ -204,7 +204,28 @@ import '@fontsource-variable/jetbrains-mono';
   .stat .v em{color:var(--green); font-style:normal}
   .stat .l{font-size:.85rem; margin-top:.3rem}
 
+  /* mission */
+  .mission{max-width:46rem; margin-inline:auto; text-align:center}
+  .mission blockquote{font-size:clamp(1.25rem,2.6vw,1.6rem); line-height:1.5; color:var(--ink); font-weight:500; letter-spacing:-.015em; text-wrap:balance}
+  .mission blockquote b{color:var(--green)}
+  .mission .missionfoot{margin-top:1.4rem; font-size:.95rem; color:var(--ink-2)}
+  .mission .missionfoot a{color:var(--green); font-weight:600}
+  .mission .missionfoot a:hover{text-decoration:underline}
+
+  /* homepage FAQ teaser */
+  .faqlist{max-width:44rem; margin:2.6rem auto 0; border:1px solid var(--hairline); border-radius:18px; background:var(--surface); overflow:hidden}
+  .faqlist details{border-top:1px solid var(--hairline)}
+  .faqlist details:first-child{border-top:0}
+  .faqlist summary{cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1.15rem 1.5rem; font-weight:600; color:var(--ink); font-size:1rem}
+  .faqlist summary::-webkit-details-marker{display:none}
+  .faqlist summary::after{content:'+'; font-family:var(--mono); color:var(--green); font-size:1.1rem; flex:none; transition:transform .2s var(--ease)}
+  .faqlist details[open] summary::after{transform:rotate(45deg)}
+  .faqlist .fa{padding:0 1.5rem 1.25rem; font-size:.96rem; color:var(--ink-2)}
+  .faqmore{text-align:center; margin-top:1.4rem; font-size:.95rem}
+  .faqmore a{color:var(--green); font-weight:600}
+
   /* who */
+  .whocell p.stake{margin-top:.9rem; font-size:1.02rem; color:var(--ink); font-weight:600; letter-spacing:-.01em}
   .who{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hairline); border:1px solid var(--hairline); border-radius:18px; overflow:hidden; margin-top:2.6rem}
   @media(max-width:760px){.who{grid-template-columns:1fr}}
   .whocell{background:var(--surface); padding:1.9rem 1.7rem}
@@ -241,7 +262,8 @@ import '@fontsource-variable/jetbrains-mono';
     <nav class="navlinks">
       <a href="#how">How it works</a>
       <a href="#privacy">Privacy</a>
-      <a href="#who">Who it's for</a>
+      <a href="/about">About</a>
+      <a href="/faq">FAQ</a>
     </nav>
     <a href="#download" class="btn btn-ink">Join the waitlist</a>
   </div>
@@ -279,6 +301,40 @@ import '@fontsource-variable/jetbrains-mono';
         </div>
         <div class="demolabel">SIMULATED DEMO · <b>tap the button</b>, watch the blur lift</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY IT MATTERS ============ -->
+<section class="block" id="why">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow kick">Why it matters</p>
+      <h2 class="h2">Exposure isn't a choice anymore. It finds you.</h2>
+      <p class="intro">Independent research, not our numbers:</p>
+    </div>
+    <div class="stats">
+      <div class="stat rv"><div class="v" data-count="73"><em>73</em>%</div><div class="l">of teens have seen porn online</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+      <div class="stat rv"><div class="v" data-count="58"><em>58</em>%</div><div class="l">stumbled onto it by accident</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+      <div class="stat rv"><div class="v" data-count="12"><em>12</em></div><div class="l">average age of first exposure</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+      <div class="stat rv"><div class="v" data-count="15"><em>15</em>%</div><div class="l">first saw it at age 10 or younger</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+    </div>
+    <p class="center" style="margin-top:1.6rem; font-size:.98rem"><a href="#download" style="color:var(--green); font-weight:600">SafeScreen puts a filter in the way</a></p>
+  </div>
+</section>
+
+<!-- ============ MISSION ============ -->
+<section class="block" id="mission">
+  <div class="wrap">
+    <div class="mission rv">
+      <p class="eyebrow kick">Why we exist</p>
+      <blockquote>
+        We believe no child's first encounter with explicit or violent imagery should be an
+        accident, and no one should be ambushed by an image they never asked for. Screens stopped
+        asking permission a long time ago. <b>SafeScreen exists to hand that permission back</b> —
+        a split second of protection, computed on your device, owned entirely by you.
+      </blockquote>
+      <p class="missionfoot">Built after watching it happen to people we love. <a href="/about">Read why we built this →</a></p>
     </div>
   </div>
 </section>
@@ -328,24 +384,6 @@ import '@fontsource-variable/jetbrains-mono';
         <div class="num">3</div><h3>SafeScreen is in action</h3><p>Harmful and explicit content is blurred before you see it, with a clear label on top. Tap to reveal, you decide.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ WHY IT MATTERS ============ -->
-<section class="block" id="why">
-  <div class="wrap">
-    <div class="center">
-      <p class="eyebrow kick">Why it matters</p>
-      <h2 class="h2">Exposure isn't a choice anymore. It finds you.</h2>
-      <p class="intro">Independent research, not our numbers:</p>
-    </div>
-    <div class="stats">
-      <div class="stat rv"><div class="v" data-count="73"><em>73</em>%</div><div class="l">of teens have seen porn online</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
-      <div class="stat rv"><div class="v" data-count="58"><em>58</em>%</div><div class="l">stumbled onto it by accident</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
-      <div class="stat rv"><div class="v" data-count="12"><em>12</em></div><div class="l">average age of first exposure</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
-      <div class="stat rv"><div class="v" data-count="15"><em>15</em>%</div><div class="l">first saw it at age 10 or younger</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
-    </div>
-    <p class="center" style="margin-top:1.6rem; font-size:.98rem"><a href="#download" style="color:var(--green); font-weight:600">SafeScreen puts a filter in the way</a></p>
   </div>
 </section>
 
@@ -422,20 +460,56 @@ import '@fontsource-variable/jetbrains-mono';
     <div class="who">
       <div class="whocell rv">
         <p class="eyebrow">Parents</p>
+        <p class="stake">Their childhood shouldn't include images they can't unsee.</p>
         <p class="q">Your kid opens any app, and explicit content appears out of nowhere.</p>
         <p class="a">Blurred before they see it, with zero per-app setup.</p>
       </div>
       <div class="whocell rv">
         <p class="eyebrow">Anyone targeted</p>
+        <p class="stake">Nobody should be ambushed in their own inbox.</p>
         <p class="q">An unsolicited explicit image lands in your DMs or a group chat.</p>
         <p class="a">Blurred on your device before it catches you off guard.</p>
       </div>
       <div class="whocell rv">
         <p class="eyebrow">Privacy-first people</p>
+        <p class="stake">Safety shouldn't cost you surveillance.</p>
         <p class="q">You don't trust apps that upload your screen "for safety."</p>
         <p class="a">Your screen is analyzed on-device and never uploaded.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============ FAQ TEASER ============ -->
+<section class="block" id="faq">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow kick">Fair questions</p>
+      <h2 class="h2">Asked before you had to ask.</h2>
+    </div>
+    <div class="faqlist rv">
+      <details>
+        <summary>Does my screen get uploaded anywhere?</summary>
+        <p class="fa">No. The AI runs entirely on your phone. Each frame is analyzed on the spot and immediately discarded. Detection even works in airplane mode — the proof it doesn't depend on a server.</p>
+      </details>
+      <details>
+        <summary>If it's free with no ads, how do you make money?</summary>
+        <p class="fa">We can't fund this with your data, because we never see it — there is nothing to sell. Core protection is free. If we ever charge, it will be for optional extras on top, never for your privacy.</p>
+      </details>
+      <details>
+        <summary>Will it ever blur the wrong thing?</summary>
+        <p class="fa">Sometimes, yes. No detector is perfect: occasionally it will blur something innocent, or miss something it shouldn't. Every blur is one tap from reversal, and you control the sensitivity.</p>
+      </details>
+      <details>
+        <summary>Does it report, delete, or block anything on its own?</summary>
+        <p class="fa">Never. SafeScreen blurs and labels. It doesn't delete content, doesn't report anyone, and doesn't notify anybody about what you reveal.</p>
+      </details>
+      <details>
+        <summary>Which phones does it work on?</summary>
+        <p class="fa">Modern Android phones first, iOS on the way. It uses your phone's AI chip where available and falls back to the regular processor automatically.</p>
+      </details>
+    </div>
+    <p class="faqmore"><a href="/faq">All questions, answered honestly →</a></p>
   </div>
 </section>
 
@@ -462,12 +536,15 @@ import '@fontsource-variable/jetbrains-mono';
 </section>
 
 <footer>
+  <div class="wrap" style="border-top:1px solid var(--hairline); padding-top:1.6rem; margin-bottom:1.6rem; text-align:center; font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; color:var(--ink-2)">
+    ON-DEVICE AI · NO SCREEN DATA COLLECTED · NO ADS · NOT AFFILIATED WITH ANY PLATFORM
+  </div>
   <div class="wrap row">
     <span class="brand" style="font-size:.95rem">
       <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M12 3 5 5.6v5c0 4.3 2.9 7.4 7 9 4.1-1.6 7-4.7 7-9v-5L12 3Z" stroke="var(--green)" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4.5" stroke="var(--green)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       SafeScreen
     </span>
-    <span>Private by design. · <a href="/faq">FAQ</a> · <a href="/privacy-policy">Privacy policy</a> · <a href="mailto:info@mysafescreen.com" style="color:var(--green)">info@mysafescreen.com</a></span>
+    <span>Private by design. · <a href="/about">About</a> · <a href="/faq">FAQ</a> · <a href="/privacy-policy">Privacy policy</a> · <a href="mailto:info@mysafescreen.com" style="color:var(--green)">info@mysafescreen.com</a></span>
   </div>
 </footer>
 
