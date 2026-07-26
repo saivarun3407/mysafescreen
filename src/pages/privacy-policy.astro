@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const updated = 'July 26, 2026';
+---
+
+<Layout
+  title="Privacy Policy | SafeScreen"
+  description="What SafeScreen collects, what it never collects, and how to reach us. Written in plain English."
+>
+  <section class="container-tight pt-20 pb-4 sm:pt-28">
+    <p class="eyebrow">Privacy policy</p>
+    <h1 class="mt-5 max-w-3xl text-[2.4rem] font-bold leading-[1.06] tracking-[-0.03em] sm:text-5xl">
+      Plain English, because you should actually read this one.
+    </h1>
+    <p class="mt-6 text-sm text-fg-3">Last updated: {updated}</p>
+  </section>
+
+  <section class="container-tight mt-12">
+    <div class="max-w-2xl space-y-12">
+      <div>
+        <h2 class="text-2xl">This website</h2>
+        <div class="mt-4 space-y-4 leading-relaxed text-fg-2">
+          <p>
+            <strong class="text-fg">What we collect:</strong> if you join the waitlist, we collect one
+            thing — the email address you type in. That's the only form on this site.
+          </p>
+          <p>
+            <strong class="text-fg">What we do with it:</strong> we store it so we can email you when
+            SafeScreen launches. Waitlist emails are stored with our email provider (Resend) and on our
+            hosting provider (Cloudflare). We don't sell it, share it, or add you to anything else.
+          </p>
+          <p>
+            <strong class="text-fg">What we don't do:</strong> this site sets no tracking cookies and runs
+            no third-party analytics. Fonts are served from our own domain, so your visit isn't disclosed
+            to a fonts CDN. Our hosting provider (Cloudflare) processes standard server logs to serve the
+            site, as every host does.
+          </p>
+          <p>
+            <strong class="text-fg">Want off the list?</strong> Email
+            <a href="mailto:info@mysafescreen.com" class="link-accent">info@mysafescreen.com</a> and we'll
+            delete your address.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-2xl">The SafeScreen app</h2>
+        <div class="mt-4 space-y-4 leading-relaxed text-fg-2">
+          <p>
+            <strong class="text-fg">Your screen stays on your phone.</strong> The AI that checks your
+            screen runs entirely on your device. Frames are analyzed on the spot and immediately
+            discarded. Your screen content is never uploaded, stored, or tied to your account.
+          </p>
+          <p>
+            <strong class="text-fg">Your account holds the minimum.</strong> Signing up takes an email
+            address, and that's all the account ever holds. No browsing history, no activity feed, no
+            record of what was blurred.
+          </p>
+          <p>
+            <strong class="text-fg">No tracking, no ads.</strong> We don't build a profile of you, and we
+            have nothing to sell to advertisers.
+          </p>
+          <p>
+            <strong class="text-fg">SafeScreen never reports or deletes anything.</strong> It blurs, it
+            labels, and it leaves every decision to reveal with you.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-2xl">Changes and contact</h2>
+        <div class="mt-4 space-y-4 leading-relaxed text-fg-2">
+          <p>
+            If this policy changes, we'll update this page and the date at the top. Questions, deletion
+            requests, anything else:
+            <a href="mailto:info@mysafescreen.com" class="link-accent">info@mysafescreen.com</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
