@@ -63,7 +63,7 @@ async function sendConfirmation(env, email) {
         text: [
           "You're on the SafeScreen waitlist.",
           '',
-          "We'll send you one email when SafeScreen launches on Android. No newsletters, no spam, nothing else.",
+          "We'll send you one email the day SafeScreen is ready for your phone. No newsletters, no spam, nothing else.",
           '',
           'SafeScreen blurs harmful and explicit images on your phone before you see them. Everything runs on your device, and nothing you look at ever leaves it.',
           '',
@@ -73,7 +73,7 @@ async function sendConfirmation(env, email) {
         ].join('\n'),
         html: `<div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:520px;margin:0 auto;padding:24px;color:#111">
   <p style="font-size:18px;font-weight:600">You're on the SafeScreen waitlist.</p>
-  <p style="color:#444;line-height:1.6">We'll send you one email when SafeScreen launches on Android. No newsletters, no spam, nothing else.</p>
+  <p style="color:#444;line-height:1.6">We'll send you one email the day SafeScreen is ready for your phone. No newsletters, no spam, nothing else.</p>
   <p style="color:#444;line-height:1.6">SafeScreen blurs harmful and explicit images on your phone before you see them. Everything runs on your device, and nothing you look at ever leaves it.</p>
   <p style="color:#444;line-height:1.6">Until launch,<br>The SafeScreen team</p>
   <p><a href="https://mysafescreen.com" style="color:#167A4A">mysafescreen.com</a></p>
