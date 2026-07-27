@@ -10,11 +10,11 @@ const guarantees = [
 ];
 
 const compare = [
-  { dim: 'Where images are judged', cloud: 'Uploaded to a server', safe: 'On your device' },
-  { dim: 'What detection requires', cloud: 'Receiving your images', safe: 'Never receiving them' },
-  { dim: 'Detection works offline', cloud: 'No', safe: 'Yes' },
-  { dim: 'Account holds', cloud: 'Activity & images', safe: 'An email, nothing else' },
-  { dim: 'Data that can leak', cloud: 'Whatever was uploaded', safe: 'Nothing leaves' },
+  { dim: 'Where your screen gets checked', cloud: "On the company's computers", safe: 'On your own phone' },
+  { dim: 'Do they see your images?', cloud: 'Yes, your images are sent to them', safe: 'No, nothing is ever sent' },
+  { dim: 'Works without internet?', cloud: 'No', safe: 'Yes' },
+  { dim: 'What they know about you', cloud: 'What you look at, plus your images', safe: 'Just your email' },
+  { dim: 'If they get hacked, what leaks?', cloud: 'Everything they collected', safe: 'Nothing, there is nothing to steal' },
 ];
 
 const never = [
@@ -71,11 +71,11 @@ const never = [
 
   <!-- comparison -->
   <section class="container-tight mt-24">
-    <p class="eyebrow">Cloud filter vs. SafeScreen</p>
+    <p class="eyebrow">Other safety apps vs. SafeScreen</p>
     <div class="mt-8 overflow-hidden rounded-xl border border-line">
       <div class="grid grid-cols-[1.4fr_1fr_1fr] border-b border-line text-sm">
         <div class="px-5 py-3.5"></div>
-        <div class="px-5 py-3.5 text-fg-3">Cloud filter</div>
+        <div class="px-5 py-3.5 text-fg-3">Other safety apps</div>
         <div class="px-5 py-3.5 font-600 text-accent">SafeScreen</div>
       </div>
       {
