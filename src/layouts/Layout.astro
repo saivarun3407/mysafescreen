@@ -53,5 +53,20 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
       <slot />
     </main>
     <Footer />
+    <script is:inline>
+      // Deep links: the initial hash jump can get lost while fonts finish laying
+      // out, leaving visitors at the top. Re-anchor once load settles.
+      function reanchor() {
+        if (!location.hash) return;
+        let el;
+        try { el = document.querySelector(location.hash); } catch { return; }
+        if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
+      }
+      addEventListener('load', () => {
+        requestAnimationFrame(reanchor);
+        if (document.fonts && document.fonts.ready)
+          document.fonts.ready.then(() => requestAnimationFrame(reanchor));
+      });
+    </script>
   </body>
 </html>

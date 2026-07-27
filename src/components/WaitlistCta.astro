@@ -1,0 +1,21 @@
+---
+import WaitlistForm from './WaitlistForm.astro';
+---
+
+<section id="waitlist" class="container-tight mt-32 scroll-mt-16">
+  <div class="card flex flex-col items-center gap-6 p-10 text-center sm:p-14">
+    <p class="eyebrow">Get SafeScreen</p>
+    <h2 class="text-3xl sm:text-4xl">Put a filter between you and the internet.</h2>
+    <p class="-mt-2 max-w-md text-fg-2">
+      Launching soon on Android, iOS on the way. Join the waitlist and we'll email you once when
+      it's ready.
+    </p>
+    <div class="flex w-full justify-center">
+      <WaitlistForm />
+    </div>
+    <p class="-mt-2 max-w-md text-sm text-fg-3">
+      Works on modern Android phones. Uses your phone's AI chip for instant checks where available,
+      and falls back to the regular processor automatically.
+    </p>
+  </div>
+</section>

@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import WaitlistForm from '../components/WaitlistForm.astro';
+import WaitlistCta from '../components/WaitlistCta.astro';
 
 const pipeline = [
   {
@@ -139,17 +139,20 @@ const specs = [
       <p class="eyebrow">Where the limits are</p>
       <h2 class="mt-5 text-3xl sm:text-4xl">Said plainly.</h2>
       <ul class="mt-8 space-y-5 text-fg-2">
-        <li class="border-l border-warn/50 pl-4">
-          <strong class="font-600 text-fg">No detector is perfect.</strong> SafeScreen reports confidence, not
-          certainty, and lets you set where the blur line sits. We keep improving the model.
+        <li class="flex items-start gap-3">
+          <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span>
+          <span><strong class="font-600 text-fg">No detector is perfect.</strong> SafeScreen reports confidence, not
+          certainty, and lets you set where the blur line sits. We keep improving the model.</span>
         </li>
-        <li class="border-l border-warn/50 pl-4">
-          <strong class="font-600 text-fg">It blurs the whole frame, not a region.</strong> Region-precise blur is
-          on the roadmap.
+        <li class="flex items-start gap-3">
+          <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span>
+          <span><strong class="font-600 text-fg">It blurs the whole frame, not a region.</strong> Region-precise blur is
+          on the roadmap.</span>
         </li>
-        <li class="border-l border-warn/50 pl-4">
-          <strong class="font-600 text-fg">Today it focuses on images and video.</strong> Text moderation is a
-          future addition, not part of v1.
+        <li class="flex items-start gap-3">
+          <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span>
+          <span><strong class="font-600 text-fg">Today it focuses on images and video.</strong> Text moderation is a
+          future addition, not part of v1.</span>
         </li>
       </ul>
       <p class="mt-8 text-fg-3">
@@ -159,10 +162,5 @@ const specs = [
   </section>
 
   <!-- CTA -->
-  <section id="waitlist" class="container-tight mt-32">
-    <div class="card flex flex-col items-start gap-7 p-10 sm:p-14">
-      <h2 class="text-3xl sm:text-4xl">Want it on your phone?</h2>
-      <WaitlistForm />
-    </div>
-  </section>
+  <WaitlistCta />
 </Layout>

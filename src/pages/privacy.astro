@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import WaitlistForm from '../components/WaitlistForm.astro';
+import WaitlistCta from '../components/WaitlistCta.astro';
 
 const guarantees = [
   { title: 'Your screen is never uploaded', body: 'The AI that checks your screen runs entirely on your phone. Each frame is analyzed on the spot and immediately discarded. No screenshots stored, nothing sent to a server.' },
@@ -109,10 +109,5 @@ const never = [
   </section>
 
   <!-- CTA -->
-  <section id="waitlist" class="container-tight mt-32">
-    <div class="card flex flex-col items-start gap-7 p-10 sm:p-14">
-      <h2 class="text-3xl sm:text-4xl">Privacy you don't have to take on faith.</h2>
-      <WaitlistForm />
-    </div>
-  </section>
+  <WaitlistCta />
 </Layout>

@@ -11,11 +11,11 @@
       required
       autocomplete="email"
       placeholder="you@email.com"
-      class="w-full flex-1 rounded-lg border border-line bg-surface px-4 py-3 text-fg placeholder:text-fg-3 focus:border-accent focus:outline-none"
+      class="w-full flex-1 rounded-full border border-line bg-surface px-5 py-3 text-fg placeholder:text-fg-3 focus:border-accent focus:outline-none"
     />
     <button type="submit" class="btn btn-primary shrink-0">Join the waitlist</button>
   </div>
-  <p id="wl-msg" class="mt-3 min-h-[1.25rem] text-sm text-fg-3" role="status" aria-live="polite">
+  <p id="wl-msg" class="mt-3 min-h-[1.25rem] text-center text-sm text-fg-3" role="status" aria-live="polite">
     No spam. One email when we launch.
   </p>
 </form>
@@ -29,7 +29,7 @@
     const set = (text: string, tone: 'muted' | 'ok' | 'warn') => {
       const color = tone === 'ok' ? 'text-accent' : tone === 'warn' ? 'text-warn' : 'text-fg-3';
       msg.textContent = text;
-      msg.className = `mt-3 min-h-[1.25rem] text-sm ${color}`;
+      msg.className = `mt-3 min-h-[1.25rem] text-center text-sm ${color}`;
     };
 
     form.addEventListener('submit', async (e) => {

@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import WaitlistForm from '../components/WaitlistForm.astro';
+import WaitlistCta from '../components/WaitlistCta.astro';
 
 const values = [
   { title: 'Protect the most targeted', body: 'Image-based abuse falls hardest on kids, teens, and women. We build for them first.' },
@@ -72,8 +72,9 @@ const values = [
 
   <!-- vision -->
   <section class="container-tight mt-24">
-    <div class="max-w-2xl border-l border-accent/50 pl-6">
-      <p class="text-2xl leading-snug text-fg sm:text-3xl">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Where this goes</p>
+      <p class="mt-5 text-2xl leading-snug text-fg sm:text-3xl">
         A private, real-time safety layer for everyone, starting with the people who need it most.
       </p>
       <p class="mt-4 text-fg-3">Next on the roadmap: faster on-device acceleration, region-precise blur, and text-based protection.</p>
@@ -81,10 +82,5 @@ const values = [
   </section>
 
   <!-- CTA -->
-  <section id="waitlist" class="container-tight mt-32">
-    <div class="card flex flex-col items-start gap-7 p-10 sm:p-14">
-      <h2 class="text-3xl sm:text-4xl">Help us protect more screens.</h2>
-      <WaitlistForm />
-    </div>
-  </section>
+  <WaitlistCta />
 </Layout>
