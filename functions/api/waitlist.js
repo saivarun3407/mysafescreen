@@ -45,6 +45,50 @@ async function addToResend(env, email, request) {
   }
 }
 
+// Confirmation email via Resend. Best-effort: a send failure must never
+// break the signup itself.
+async function sendConfirmation(env, email) {
+  if (!env?.RESEND_API_KEY) return { tried: false };
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${env.RESEND_API_KEY}`,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'SafeScreen <hello@mysafescreen.com>',
+        to: [email],
+        subject: "You're on the SafeScreen waitlist",
+        text: [
+          "You're on the SafeScreen waitlist.",
+          '',
+          "We'll send you one email when SafeScreen launches on Android. No newsletters, no spam, nothing else.",
+          '',
+          'SafeScreen blurs harmful and explicit images on your phone before you see them. Everything runs on your device, and nothing you look at ever leaves it.',
+          '',
+          'Until launch,',
+          'The SafeScreen team',
+          'https://mysafescreen.com',
+        ].join('\n'),
+        html: `<div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:520px;margin:0 auto;padding:24px;color:#111">
+  <p style="font-size:18px;font-weight:600">You're on the SafeScreen waitlist.</p>
+  <p style="color:#444;line-height:1.6">We'll send you one email when SafeScreen launches on Android. No newsletters, no spam, nothing else.</p>
+  <p style="color:#444;line-height:1.6">SafeScreen blurs harmful and explicit images on your phone before you see them. Everything runs on your device, and nothing you look at ever leaves it.</p>
+  <p style="color:#444;line-height:1.6">Until launch,<br>The SafeScreen team</p>
+  <p><a href="https://mysafescreen.com" style="color:#167A4A">mysafescreen.com</a></p>
+</div>`,
+      }),
+    });
+    if (res.ok) return { tried: true, ok: true };
+    console.error('resend confirmation failed', res.status, await res.text());
+    return { tried: true, ok: false };
+  } catch (err) {
+    console.error('resend confirmation error', err);
+    return { tried: true, ok: false };
+  }
+}
+
 async function addToKV(env, email, request) {
   if (!env?.WAITLIST) return { tried: false };
   try {
@@ -90,6 +134,9 @@ export async function onRequestPost({ request, env }) {
   if (anyTried && !anyOk) {
     return json({ ok: false, error: 'storage_failed' }, 502);
   }
+
+  // Fire the confirmation only once the signup is actually stored.
+  await sendConfirmation(env, email);
 
   return json({ ok: true });
 }
