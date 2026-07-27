@@ -61,8 +61,18 @@ import '@fontsource-variable/jetbrains-mono';
   /* live phone demo */
   .phonewrap{position:relative; display:flex; justify-content:center}
   .phone{position:relative; width:min(300px,80vw); aspect-ratio:9/19; border-radius:2.2rem; border:1px solid var(--hairline); background:var(--surface); padding:.55rem; box-shadow:0 1px 0 #fff inset, 0 30px 60px -30px rgba(17,17,17,.28)}
-  .screen{position:relative; width:100%; height:100%; border-radius:1.7rem; overflow:hidden; background:#2a1416}
-  .screen canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
+  .screen{position:relative; width:100%; height:100%; border-radius:1.7rem; overflow:hidden; background:#1c1518}
+  .scene{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:
+      radial-gradient(90% 70% at 50% 30%, #33272b 0%, transparent 75%),
+      radial-gradient(80% 60% at 60% 85%, #241a1e 0%, transparent 70%), #1c1518;
+    transition:filter .7s var(--ease)}
+  .screen.blurred .scene{filter:blur(16px) saturate(.85)}
+  .heroscan{position:absolute; left:0; right:0; top:-2px; height:2px; z-index:3; opacity:0;
+    background:linear-gradient(90deg,transparent,#167A4A,transparent)}
+  .heroscan.run{animation:heroscan 1s var(--ease) forwards}
+  @keyframes heroscan{0%{opacity:0;top:0}12%{opacity:1}88%{opacity:1}100%{top:100%;opacity:0}}
+  .ovcard{transition:opacity .45s var(--ease)}
   .ovcard{position:absolute; z-index:2; left:50%; top:50%; transform:translate(-50%,-50%); width:84%;
     background:rgba(14,16,15,.85); color:#fff; border-radius:1.2rem; padding:1.15rem 1rem; text-align:center; transition:opacity .45s var(--ease)}
   .ovcard .t{font-size:1rem; font-weight:600}
@@ -270,8 +280,37 @@ import '@fontsource-variable/jetbrains-mono';
     <!-- LIVE demo phone -->
     <div class="phonewrap">
       <div class="phone">
-        <div class="screen">
-          <canvas id="demo"></canvas>
+        <div class="screen blurred" id="demoscr">
+          <div class="scene" aria-hidden="true">
+            <svg viewBox="0 0 240 240" width="82%" role="img" aria-label="Illustration of a knife with blood, used as a stand-in for violent content">
+              <defs>
+                <linearGradient id="kblade" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#e3e6ea"/>
+                  <stop offset=".55" stop-color="#aeb4bc"/>
+                  <stop offset="1" stop-color="#7c838d"/>
+                </linearGradient>
+                <linearGradient id="kgrip" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#3a3a40"/>
+                  <stop offset="1" stop-color="#151518"/>
+                </linearGradient>
+              </defs>
+              <g transform="rotate(-32 120 120)">
+                <path d="M18 122 C55 92 118 82 172 86 L172 128 C120 136 62 138 18 128 Q8 125 18 122 Z" fill="url(#kblade)"/>
+                <path d="M18 122 C55 92 118 82 172 86 L172 92 C120 90 60 98 22 124 Z" fill="#f2f4f6" opacity=".5"/>
+                <rect x="168" y="82" width="9" height="50" rx="3" fill="#26262b"/>
+                <rect x="177" y="86" width="48" height="42" rx="10" fill="url(#kgrip)"/>
+                <circle cx="190" cy="107" r="2.6" fill="#57575e"/>
+                <circle cx="206" cy="107" r="2.6" fill="#57575e"/>
+                <path d="M34 126 C80 118 130 114 166 116 L166 128 C120 134 66 136 30 128 Z" fill="#8f1310" opacity=".92"/>
+                <path d="M60 132 q4 12 0 18 q-5 -7 0 -18" fill="#8f1310"/>
+                <path d="M96 136 q3 9 0 14 q-4 -5 0 -14" fill="#7c100e"/>
+                <circle cx="61" cy="156" r="3.2" fill="#8f1310"/>
+                <circle cx="97" cy="156" r="2.4" fill="#7c100e"/>
+                <circle cx="132" cy="146" r="2" fill="#8f1310"/>
+              </g>
+            </svg>
+          </div>
+          <div class="heroscan" id="heroscan"></div>
           <div class="ovcard" id="ovcard">
             <div class="t">⚠ Protected by SafeScreen</div>
             <div class="s">Possibly sensitive, blurred</div>
@@ -280,7 +319,7 @@ import '@fontsource-variable/jetbrains-mono';
             <div class="lock">🔒 Analyzed on-device · 0 bytes left your phone</div>
           </div>
         </div>
-        <div class="demolabel">SIMULATED DEMO · <b>tap the button</b>, watch the blur lift</div>
+        <div class="demolabel">ILLUSTRATED DEMO · <b>watch SafeScreen catch it</b>, tap to reveal</div>
       </div>
     </div>
   </div>
@@ -548,25 +587,6 @@ float noise(vec2 p){vec2 i=floor(p),f=fract(p);float a=hash(i),b=hash(i+vec2(1.,
 vec2 u=f*f*(3.-2.*f);return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);}
 float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p*=2.02;a*=.5;}return v;}`;
 
-/* --- hero demo: procedural photo + frosted protect layer, defrost on tap --- */
-const DEMO=`precision highp float;uniform vec2 u_res;uniform float u_time;uniform float u_a;${NOISE}
-vec3 content(vec2 uv,float lod){
- float n1=fbm(uv*(2.0+lod*3.0)+vec2(0.0,u_time*0.03));
- float n2=fbm(uv*(3.5+lod*4.0)-vec2(u_time*0.02,0.0));
- vec3 warm=vec3(0.45,0.07,0.05),cool=vec3(0.11,0.07,0.09),lit=vec3(0.72,0.15,0.09);
- vec3 c=mix(cool,warm,smoothstep(0.3,0.7,n1));return mix(c,lit,smoothstep(0.55,0.9,n2)*0.7);}
-void main(){vec2 uv=gl_FragCoord.xy/u_res;
- float d=distance(uv,vec2(0.5,0.45));
- float reveal=smoothstep(0.05,0.0,d-u_a*1.4);
- vec3 sharp=content(uv,1.0), blur=content(uv,0.0);
- float frost=noise(gl_FragCoord.xy*0.5+u_time*2.0)*0.06;
- vec3 frosted=mix(blur,vec3(0.92,0.94,0.95),0.35)+frost;
- frosted=mix(frosted,vec3(0.86,0.9,0.88),0.12);
- vec3 col=mix(frosted,sharp,reveal);
- float sc=fract(u_time*0.45); if(sc<0.5&&u_a<0.5){float y=sc*2.0;col+=vec3(0.086,0.478,0.29)*smoothstep(0.02,0.0,abs(uv.y-y))*0.45;}
- col*=smoothstep(1.2,0.35,length(uv-0.5))*0.14+0.86;
- gl_FragColor=vec4(col,1.0);}`;
-
 /* --- download CTA: faint ambient shield aura on cream --- */
 const AURA=`precision highp float;uniform vec2 u_res;uniform float u_time;${NOISE}
 void main(){vec2 uv=(gl_FragCoord.xy-0.5*u_res)/u_res.y;float r=length(uv);float t=u_time;
@@ -579,20 +599,32 @@ void main(){vec2 uv=(gl_FragCoord.xy-0.5*u_res)/u_res.y;float r=length(uv);float
  col=mix(col,g,(rings*0.05+aura*0.07+ping*0.22)*fall);
  gl_FragColor=vec4(col,1.0);}`;
 
-(function(){const cv=document.getElementById('demo');const R=glc(cv,DEMO);
- if(!R){cv.style.background='linear-gradient(140deg,#3a0d0b,#1a1214)';return;}
- let a=0,target=0;
- const card=document.getElementById('ovcard'),btn=document.getElementById('reveal');
- btn.addEventListener('click',()=>{target=target>0.5?0:1;
-   btn.textContent=target>0.5?'TAP TO HIDE':'TAP TO REVEAL';
-   card.style.opacity=target>0.5?'0':'1'; card.style.pointerEvents='auto';});
- // auto-demo loop: reveal briefly every ~9s if user hasn't interacted
- let touched=false; btn.addEventListener('click',()=>touched=true);
- setInterval(()=>{if(!touched&&!reduced){target=1;card.style.opacity='0';
-   setTimeout(()=>{if(!touched){target=0;card.style.opacity='1';}},2600);}},9000);
- let s=null;(function f(ts){if(s==null)s=ts;const t=reduced?3:(ts-s)/1000;a+=(target-a)*0.06;
-   R.gl.uniform2f(R.U.res,cv.width,cv.height);R.gl.uniform1f(R.U.time,t);R.gl.uniform1f(R.U.a,a);
-   R.gl.drawArrays(R.gl.TRIANGLES,0,3);if(!reduced)requestAnimationFrame(f);})(performance.now());})();
+/* --- hero demo: illustrated knife scene. Cycle: sharp -> scan -> blur + card.
+       Tap reveals; tap again re-blurs. Reduced motion: static blurred state. --- */
+(function(){
+ const scr=document.getElementById('demoscr'), scan=document.getElementById('heroscan'),
+       card=document.getElementById('ovcard'), btn=document.getElementById('reveal');
+ if(!scr||!card||!btn) return;
+ let revealed=false, timers=[];
+ const clear=()=>{timers.forEach(clearTimeout); timers=[];};
+ const blurNow=()=>{scr.classList.add('blurred'); card.style.opacity='1';};
+ const cycle=()=>{
+   if(revealed||reduced) return;
+   clear();
+   scr.classList.remove('blurred'); card.style.opacity='0';
+   timers.push(setTimeout(()=>{scan.classList.remove('run'); void scan.offsetWidth; scan.classList.add('run');},1200));
+   timers.push(setTimeout(blurNow,2100));
+ };
+ btn.addEventListener('click',()=>{
+   revealed=!revealed; clear();
+   btn.textContent=revealed?'TAP TO HIDE':'TAP TO REVEAL';
+   card.style.opacity=revealed?'0':'1'; card.style.pointerEvents='auto';
+   scr.classList.toggle('blurred',!revealed);
+ });
+ if(reduced){blurNow(); return;}
+ cycle();
+ setInterval(cycle,9000);
+})();
 
 (function(){const cv=document.getElementById('aurabg');const R=glc(cv,AURA);
  if(!R){cv.style.background='radial-gradient(circle at 50% 40%, #EEF7F1, #fff)';return;}
