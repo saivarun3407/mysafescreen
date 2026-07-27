@@ -230,8 +230,11 @@ import '@fontsource-variable/jetbrains-mono';
   .dl .cta{margin-top:1.8rem; display:flex; justify-content:center; gap:.8rem; flex-wrap:wrap}
   .dl .fine{margin-top:1.1rem; font-size:.82rem; color:var(--ink-2)}
 
-  footer{padding-block:3rem; font-size:.88rem}
-  footer .row{display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; align-items:center}
+  footer{padding-block:3.2rem; font-size:.88rem}
+  .fcols{display:grid; grid-template-columns:1.6fr 1fr 1fr; gap:2.5rem}
+  @media(max-width:720px){.fcols{grid-template-columns:1fr}}
+  .flinks{list-style:none; margin-top:1rem; display:grid; gap:.6rem; font-size:.88rem}
+  .flinks a:hover{color:var(--ink)}
 
   /* scroll reveal */
   .rv{opacity:0; transform:translateY(14px); transition:opacity .5s var(--ease), transform .5s var(--ease)}
@@ -248,8 +251,8 @@ import '@fontsource-variable/jetbrains-mono';
       SafeScreen
     </a>
     <nav class="navlinks">
-      <a href="#how">How it works</a>
-      <a href="#privacy">Privacy</a>
+      <a href="/how-it-works">How it works</a>
+      <a href="/privacy">Privacy</a>
       <a href="/about">About</a>
     </nav>
     <a href="#download" class="btn btn-ink">Join the waitlist</a>
@@ -271,6 +274,7 @@ import '@fontsource-variable/jetbrains-mono';
         <span><i></i>Your screen is analyzed on your phone, never uploaded anywhere.</span>
         <span><i></i>Sign up in seconds. No tracking, no ads.</span>
       </div>
+      <p class="mono" style="margin-top:1.4rem; font-size:.72rem; letter-spacing:.08em; color:var(--ink-2)">~10MB MODEL · &lt;26MS PER FRAME · 0 UPLOADS · 100% ON-DEVICE</p>
     </div>
 
     <!-- LIVE demo phone -->
@@ -301,10 +305,10 @@ import '@fontsource-variable/jetbrains-mono';
       <p class="intro">Independent research, not our numbers:</p>
     </div>
     <div class="stats">
-      <div class="stat rv"><div class="v" data-count="73"><em>73</em>%</div><div class="l">of teens have seen porn online</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
-      <div class="stat rv"><div class="v" data-count="58"><em>58</em>%</div><div class="l">stumbled onto it by accident</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
-      <div class="stat rv"><div class="v" data-count="12"><em>12</em></div><div class="l">average age of first exposure</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
-      <div class="stat rv"><div class="v" data-count="15"><em>15</em>%</div><div class="l">first saw it at age 10 or younger</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+      <div class="stat rv"><div class="v"><em>73</em>%</div><div class="l">of teens have seen porn online</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+      <div class="stat rv"><div class="v"><em>58</em>%</div><div class="l">stumbled onto it by accident</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+      <div class="stat rv"><div class="v"><em>12</em></div><div class="l">average age of first exposure</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
+      <div class="stat rv"><div class="v"><em>15</em>%</div><div class="l">first saw it at age 10 or younger</div><a class="src" href="https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography" target="_blank" rel="noopener">Common Sense Media · 2023</a></div>
     </div>
     <p class="center" style="margin-top:1.6rem; font-size:.98rem"><a href="#download" style="color:var(--green); font-weight:600">SafeScreen puts a filter in the way</a></p>
   </div>
@@ -468,7 +472,8 @@ import '@fontsource-variable/jetbrains-mono';
 </section>
 
 <!-- ============ DOWNLOAD ============ -->
-<section class="block" id="download" style="border-bottom:0">
+<section class="block" id="download" style="border-bottom:0; scroll-margin-top:64px">
+  <span id="waitlist" style="display:block; scroll-margin-top:64px"></span>
   <div class="wrap">
     <div class="dl">
       <canvas id="aurabg"></canvas>
@@ -489,20 +494,57 @@ import '@fontsource-variable/jetbrains-mono';
   </div>
 </section>
 
-<footer>
-  <div class="wrap" style="border-top:1px solid var(--hairline); padding-top:1.6rem; margin-bottom:1.6rem; text-align:center; font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; color:var(--ink-2)">
-    ON-DEVICE AI · NO SCREEN DATA COLLECTED · NO ADS · NOT AFFILIATED WITH ANY PLATFORM
-  </div>
-  <div class="wrap row">
-    <span class="brand" style="font-size:.95rem">
-      <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M12 3 5 5.6v5c0 4.3 2.9 7.4 7 9 4.1-1.6 7-4.7 7-9v-5L12 3Z" stroke="var(--green)" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4.5" stroke="var(--green)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      SafeScreen
-    </span>
-    <span>Private by design. · <a href="/about">About</a> · <a href="/privacy-policy">Privacy policy</a> · <a href="mailto:info@mysafescreen.com" style="color:var(--green)">info@mysafescreen.com</a></span>
+<footer style="border-top:1px solid var(--hairline)">
+  <div class="wrap">
+    <div class="fcols">
+      <div style="max-width:20rem">
+        <span class="brand" style="font-size:.98rem">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M12 3 5 5.6v5c0 4.3 2.9 7.4 7 9 4.1-1.6 7-4.7 7-9v-5L12 3Z" stroke="var(--green)" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4.5" stroke="var(--green)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          SafeScreen
+        </span>
+        <p style="margin-top:1rem; font-size:.88rem; color:var(--muted)">An on-device safety layer for your screen. Harmful and explicit imagery, blurred before you see it. Nothing ever leaves your phone.</p>
+        <a href="mailto:info@mysafescreen.com" class="mono" style="display:inline-block; margin-top:1.1rem; font-size:.82rem; color:var(--ink-2)">info@mysafescreen.com</a>
+      </div>
+      <div>
+        <p class="eyebrow" style="font-size:.66rem">Product</p>
+        <ul class="flinks">
+          <li><a href="/how-it-works">How it works</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="#download">Waitlist</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow" style="font-size:.66rem">Company</p>
+        <ul class="flinks">
+          <li><a href="/about">About</a></li>
+          <li><a href="/privacy-policy">Privacy policy</a></li>
+          <li><a href="mailto:info@mysafescreen.com">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mono" style="border-top:1px solid var(--hairline); margin-top:2.6rem; padding-top:1.5rem; text-align:center; font-size:.68rem; letter-spacing:.08em; color:var(--muted)">
+      ON-DEVICE AI · NO SCREEN DATA COLLECTED · NO ADS · NOT AFFILIATED WITH ANY PLATFORM
+    </div>
+    <div style="margin-top:1.4rem; display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; font-size:.78rem; color:var(--muted)">
+      <span>© 2026 SafeScreen</span>
+      <span>Private by design.</span>
+    </div>
   </div>
 </footer>
 
 <script is:inline>
+/* Deep links: the initial hash jump gets lost while fonts/canvases finish
+   laying out, leaving visitors at the top. Re-anchor once load settles. */
+function reanchor(){
+  if(!location.hash) return;
+  let el; try{el=document.querySelector(location.hash);}catch{return;}
+  if(el) el.scrollIntoView({behavior:'instant',block:'start'});
+}
+addEventListener('load',()=>{
+  requestAnimationFrame(reanchor);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>requestAnimationFrame(reanchor));
+});
+
 /* ============ tiny WebGL runtime (no libraries) ============ */
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 function glc(canvas, frag){
@@ -583,15 +625,8 @@ void main(){vec2 uv=(gl_FragCoord.xy-0.5*u_res)/u_res.y;float r=length(uv);float
 /* --- scroll reveal + counters --- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}}),{threshold:.15});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
-const cio=new IntersectionObserver(es=>es.forEach(e=>{
- if(!e.isIntersecting)return; cio.unobserve(e.target);
- const el=e.target, n=+el.dataset.count, em=el.querySelector('em');
- if(reduced){em.textContent=n;return;}
- const t0=performance.now();
- (function step(t){const p=Math.min(1,(t-t0)/900);em.textContent=Math.round(n*(1-Math.pow(1-p,3)));
-  if(p<1)requestAnimationFrame(step);})(t0);
-}),{threshold:.6});
-document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+/* stats render their true values statically. No count-up: animating from 0
+   briefly shows wrong numbers under a real citation, which costs credibility. */
 
 /* --- waitlist form --- */
 (function(){
