@@ -61,7 +61,7 @@ import '@fontsource-variable/jetbrains-mono';
   /* live phone demo */
   .phonewrap{position:relative; display:flex; justify-content:center}
   .phone{position:relative; width:min(300px,80vw); aspect-ratio:9/19; border-radius:2.2rem; border:1px solid var(--hairline); background:var(--surface); padding:.55rem; box-shadow:0 1px 0 #fff inset, 0 30px 60px -30px rgba(17,17,17,.28)}
-  .screen{position:relative; width:100%; height:100%; border-radius:1.7rem; overflow:hidden; background:#cfc4b8}
+  .screen{position:relative; width:100%; height:100%; border-radius:1.7rem; overflow:hidden; background:#2a1416}
   .screen canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
   .ovcard{position:absolute; z-index:2; left:50%; top:50%; transform:translate(-50%,-50%); width:84%;
     background:rgba(14,16,15,.85); color:#fff; border-radius:1.2rem; padding:1.15rem 1rem; text-align:center; transition:opacity .45s var(--ease)}
@@ -148,9 +148,9 @@ import '@fontsource-variable/jetbrains-mono';
   /* ---- STEP 3: in action (content → scan → blur lands + card) ---- */
   .blurbg{position:absolute; inset:0;
     background:
-      radial-gradient(60% 40% at 30% 25%, #d9a06b 0%, transparent 70%),
-      radial-gradient(70% 50% at 75% 60%, #7d8fb3 0%, transparent 70%),
-      radial-gradient(80% 60% at 40% 85%, #c9b6a3 0%, transparent 70%), #b9a894;
+      radial-gradient(60% 40% at 30% 25%, #7a1512 0%, transparent 70%),
+      radial-gradient(70% 50% at 75% 60%, #3a0e10 0%, transparent 70%),
+      radial-gradient(80% 60% at 40% 85%, #55201c 0%, transparent 70%), #2b1113;
     filter:blur(9px) saturate(.9)}
   .step.active .blurbg{animation:s3blur 4s var(--ease) forwards}
   @keyframes s3blur{0%,25%{filter:blur(1px) saturate(1)}48%,100%{filter:blur(9px) saturate(.9)}}
@@ -275,7 +275,7 @@ import '@fontsource-variable/jetbrains-mono';
           <div class="ovcard" id="ovcard">
             <div class="t">⚠ Protected by SafeScreen</div>
             <div class="s">Possibly sensitive, blurred</div>
-            <div class="score">NSFW 61% · checked in 18ms</div>
+            <div class="score">Graphic violence 87% · checked in 18ms</div>
             <button class="reveal" id="reveal">TAP TO REVEAL</button>
             <div class="lock">🔒 Analyzed on-device · 0 bytes left your phone</div>
           </div>
@@ -553,7 +553,7 @@ const DEMO=`precision highp float;uniform vec2 u_res;uniform float u_time;unifor
 vec3 content(vec2 uv,float lod){
  float n1=fbm(uv*(2.0+lod*3.0)+vec2(0.0,u_time*0.03));
  float n2=fbm(uv*(3.5+lod*4.0)-vec2(u_time*0.02,0.0));
- vec3 warm=vec3(0.85,0.62,0.45),cool=vec3(0.35,0.45,0.62),lit=vec3(0.95,0.9,0.8);
+ vec3 warm=vec3(0.45,0.07,0.05),cool=vec3(0.11,0.07,0.09),lit=vec3(0.72,0.15,0.09);
  vec3 c=mix(cool,warm,smoothstep(0.3,0.7,n1));return mix(c,lit,smoothstep(0.55,0.9,n2)*0.7);}
 void main(){vec2 uv=gl_FragCoord.xy/u_res;
  float d=distance(uv,vec2(0.5,0.45));
@@ -580,7 +580,7 @@ void main(){vec2 uv=(gl_FragCoord.xy-0.5*u_res)/u_res.y;float r=length(uv);float
  gl_FragColor=vec4(col,1.0);}`;
 
 (function(){const cv=document.getElementById('demo');const R=glc(cv,DEMO);
- if(!R){cv.style.background='linear-gradient(140deg,#c9b6a3,#8a97ab)';return;}
+ if(!R){cv.style.background='linear-gradient(140deg,#3a0d0b,#1a1214)';return;}
  let a=0,target=0;
  const card=document.getElementById('ovcard'),btn=document.getElementById('reveal');
  btn.addEventListener('click',()=>{target=target>0.5?0:1;
