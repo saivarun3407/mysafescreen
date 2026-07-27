@@ -212,18 +212,6 @@ import '@fontsource-variable/jetbrains-mono';
   .mission .missionfoot a{color:var(--green); font-weight:600}
   .mission .missionfoot a:hover{text-decoration:underline}
 
-  /* homepage FAQ teaser */
-  .faqlist{max-width:44rem; margin:2.6rem auto 0; border:1px solid var(--hairline); border-radius:18px; background:var(--surface); overflow:hidden}
-  .faqlist details{border-top:1px solid var(--hairline)}
-  .faqlist details:first-child{border-top:0}
-  .faqlist summary{cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1.15rem 1.5rem; font-weight:600; color:var(--ink); font-size:1rem}
-  .faqlist summary::-webkit-details-marker{display:none}
-  .faqlist summary::after{content:'+'; font-family:var(--mono); color:var(--green); font-size:1.1rem; flex:none; transition:transform .2s var(--ease)}
-  .faqlist details[open] summary::after{transform:rotate(45deg)}
-  .faqlist .fa{padding:0 1.5rem 1.25rem; font-size:.96rem; color:var(--ink-2)}
-  .faqmore{text-align:center; margin-top:1.4rem; font-size:.95rem}
-  .faqmore a{color:var(--green); font-weight:600}
-
   /* who */
   .whocell p.stake{margin-top:.9rem; font-size:1.02rem; color:var(--ink); font-weight:600; letter-spacing:-.01em}
   .who{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hairline); border:1px solid var(--hairline); border-radius:18px; overflow:hidden; margin-top:2.6rem}
@@ -282,7 +270,7 @@ import '@fontsource-variable/jetbrains-mono';
       </div>
       <div class="trust">
         <span><i></i>Your screen is analyzed on your phone, never uploaded anywhere.</span>
-        <span><i></i>Free. Sign up in seconds. No tracking, no ads.</span>
+        <span><i></i>Sign up in seconds. No tracking, no ads.</span>
       </div>
     </div>
 
@@ -477,39 +465,6 @@ import '@fontsource-variable/jetbrains-mono';
         <p class="a">Your screen is analyzed on-device and never uploaded.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ FAQ TEASER ============ -->
-<section class="block" id="faq">
-  <div class="wrap">
-    <div class="center">
-      <p class="eyebrow kick">Fair questions</p>
-      <h2 class="h2">Asked before you had to ask.</h2>
-    </div>
-    <div class="faqlist rv">
-      <details>
-        <summary>Does my screen get uploaded anywhere?</summary>
-        <p class="fa">No. The AI runs entirely on your phone. Each frame is analyzed on the spot and immediately discarded. Detection even works in airplane mode — the proof it doesn't depend on a server.</p>
-      </details>
-      <details>
-        <summary>If it's free with no ads, how do you make money?</summary>
-        <p class="fa">We can't fund this with your data, because we never see it — there is nothing to sell. Core protection is free. If we ever charge, it will be for optional extras on top, never for your privacy.</p>
-      </details>
-      <details>
-        <summary>Will it ever blur the wrong thing?</summary>
-        <p class="fa">Sometimes, yes. No detector is perfect: occasionally it will blur something innocent, or miss something it shouldn't. Every blur is one tap from reversal, and you control the sensitivity.</p>
-      </details>
-      <details>
-        <summary>Does it report, delete, or block anything on its own?</summary>
-        <p class="fa">Never. SafeScreen blurs and labels. It doesn't delete content, doesn't report anyone, and doesn't notify anybody about what you reveal.</p>
-      </details>
-      <details>
-        <summary>Which phones does it work on?</summary>
-        <p class="fa">Modern Android phones first, iOS on the way. It uses your phone's AI chip where available and falls back to the regular processor automatically.</p>
-      </details>
-    </div>
-    <p class="faqmore"><a href="/faq">All questions, answered honestly →</a></p>
   </div>
 </section>
 
